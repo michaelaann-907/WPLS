@@ -1,0 +1,200 @@
+/* -------------- navigation bar, header, and body styles -------------- */
+
+/* Setting the overall body style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling the header with a teal background */
+header {
+    background-color: teal;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Adjusting the header's h1 element */
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+/* Styling the navigation bar */
+nav {
+    background-color: #1b283e;
+    color: gold;
+}
+
+/* Styling the navigation menu items */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Styling the navigation menu item list items */
+nav li {
+    margin: 0;
+    padding: 15px;
+}
+
+/* Styling navigation links to remove underlines */
+nav a {
+    text-decoration: none;
+    color: gold;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+/* Changing link color on hover */
+nav a:hover {
+    color: teal;
+}
+
+/* Styling the main content container */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the featured books section */
+section.featured-books {
+    margin-top: 20px;
+}
+
+/* Styling the footer */
+footer {
+    text-align: center;
+    background-color: teal;
+    color: white;
+    padding: 10px;
+}
+
+
+
+/* -------------- addpatron.html page styles -------------- */
+
+/* Styling the form container for addpatron.html */
+.form-container {
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adding margin to the footer after the form */
+.form-container + footer {
+    margin-top: 20px;
+}
+
+/* Styling form groups within the form */
+.form-group {
+    margin: 10px 0;
+}
+
+/* Centering h2 in the form */
+form h2 {
+    text-align: center;
+}
+
+/* Adding margin to h3 within the form */
+form h3 {
+    margin-top: 20px;
+}
+
+/* Styling labels within the form */
+label {
+    display: block;
+}
+
+/* Making select and input elements take full width */
+select, input {
+    width: 100%;
+}
+
+/* Styling radio input elements */
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Adding margin to buttons within form groups */
+.form-group button {
+    margin-top: 10px;
+}
+
+
+
+
+/* -------------- index.html page - buttons styles -------------- */
+
+/* Creating a container for buttons */
+.buttons-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Styling the buttons within the container */
+.buttons-container button {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none; /* Removing underlines */
+    transition: background-color 0.3s;
+}
+
+/* Changing button background color on hover */
+.buttons-container button:hover {
+    background-color: gold;
+}
+
+/* Style the "Add Patron" button differently */
+.buttons-container button:first-child {
+    background-color: gold;
+    color: #1b283e;
+    font-weight: bold;
+}
+
+
+/* -------------- page -------------- */
+/* Fix the footer at the bottom of the page */
+.site-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: teal;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+
+
+
+
+
+/* -------------- page -------------- */
+/* -------------- page -------------- */
+/* -------------- page -------------- */
+/* -------------- page -------------- */
+/* -------------- page -------------- */
