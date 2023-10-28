@@ -14,13 +14,13 @@ if ($conn->connect_error) {
 
 // Fields that will need to be created for the Database table:: addpatron feature
 
-// First Name = firstName
-// Last Name = lastName
-// Phone Number = phoneNumber
-// Street = street
-// City = city
-// State = state
-// Zipcode = zipcode
+// firstName
+// lastName
+// phoneNumber
+// street
+// city
+// state
+// zipcode
 
 
 

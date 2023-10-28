@@ -175,8 +175,8 @@ input[type="radio"] {
 }
 
 
-/* -------------- page -------------- */
-/* Fix the footer at the bottom of the page */
+/* ------ index.html page - footer  -------- */
+/* Holds the footer at the bottom of the page */
 .site-footer {
     position: fixed;
     left: 0;

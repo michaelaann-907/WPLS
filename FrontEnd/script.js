@@ -1,4 +1,6 @@
-/* -------------- Phone Number Format -------------- */
+/* -------------- addpatron.html page -------------- */
+
+/* -------------- Phone Number Format - 10-digit in style XXX-XXX-XXXX -------------- */
 
 // Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-/* -------------- Zipcode Format -------------- */
+/* -------------- Zipcode Format - 5-digit -------------- */
 
 document.addEventListener("DOMContentLoaded", function () {
     // Get the zipcode input element
@@ -65,8 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-/* -------------- Country Requirements - United States Only -------------- */
-
+/* -------------- State Required Field - For United States Only -------------- */
 document.addEventListener("DOMContentLoaded", function () {
     // Get the country and state input elements
     var countrySelect = document.getElementById("country");
