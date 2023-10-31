@@ -89,7 +89,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-/* -------------- page -------------- */
+/* -------------- catalog.html -------------- */
+document.addEventListener("DOMContentLoaded", function() {
+    // Add an event listener to the "Add Item" button
+    document.getElementById("addItemBtn").addEventListener("click", function() {
+        var addItemForm = document.getElementById("addItemFormContainer");
+        addItemForm.style.display = "block";
+    });
+
+    // Add an event listener to the "Close" button
+    document.getElementById("closeFormBtn").addEventListener("click", function() {
+        var addItemForm = document.getElementById("addItemFormContainer");
+        addItemForm.style.display = "none";
+    });
+
+    // Generate Label Button Click Event
+    document.getElementById("generateLabelBtn").addEventListener("click", function() {
+        // Get the form input values
+        var title = document.getElementById("title").value;
+        var author = document.getElementById("author").value;
+        var year = document.getElementById("year").value;
+        var locCode = document.getElementById("locCode").value;
+        var shelfCode = document.getElementById("shelfCode").value;
+        var cost = document.getElementById("cost").value;
+        var itemType = document.getElementById("itemType").value;
+        var branch = document.getElementById("branch").value;
+
+        // Generate the label content
+        var labelContent = `
+            <h3>Library Label</h3>
+            <p><strong>Title:</strong> ${title}</p>
+            <p><strong>Author:</strong> ${author}</p>
+            <p><strong>Year:</strong> ${year}</p>
+            <p><strong>Library of Congress Code:</strong> ${locCode}</p>
+            <p><strong>Shelf Location Code:</strong> ${shelfCode}</p>
+            <p><strong>Cost:</strong> ${cost}</p>
+            <p><strong>Item Type:</strong> ${itemType}</p>
+            <p><strong>Branch:</strong> ${branch}</p>
+        `;
+
+        // Create a new popup window for the label
+        var labelPopup = window.open("", "Label Popup", "width=600, height=400");
+
+        // Populate the popup window with the label content
+        labelPopup.document.open();
+        labelPopup.document.write(`
+            <html>
+            <head>
+                <title>Library Label</title>
+            </head>
+            <body>
+                <button id="printLabelBtn">Print</button>
+                <button id="exitLabelBtn">Exit</button>
+                ${labelContent}
+            </body>
+            </html>
+        `);
+        labelPopup.document.close();
+
+        // Print Label Button Click Event in the popup
+        labelPopup.document.getElementById("printLabelBtn").addEventListener("click", function() {
+            labelPopup.print(); // Print the label in the popup window
+        });
+
+        // Exit Label Button Click Event in the popup
+        labelPopup.document.getElementById("exitLabelBtn").addEventListener("click", function() {
+            labelPopup.close(); // Close the popup window
+        });
+    });
+});
+
 /* -------------- page -------------- */
 /* -------------- page -------------- */
 /* -------------- page -------------- */

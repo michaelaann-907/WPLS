@@ -2,9 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <title>Wayback Public Library - Catalog</title>
+    <style>
+        /* Add your CSS styles for the dropdown form here */
+        #addItemFormContainer {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<header>
+    <h1>Welcome to Wayback Public Library</h1>
+    <p>Your Gateway to Knowledge</p>
+</header>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="checkin.html">Check In</a></li>
+        <li><a href="checkout.html">Check Out</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>Catalog</h2>
 
+    <!-- Search Bar -->
+    <input type="text" id="searchInput" placeholder="Search items in the catalog">
+    <!-- Search Button -->
+    <button id="searchBtn">Search</button>
+
+    <!-- Add Item Button (Open Dropdown Form) -->
+    <button id="addItemBtn">Add Item</button>
+
+    <!-- Dropdown Form to Add Item -->
+    <div id="addItemFormContainer">
+        <button class="closeBtn" id="closeFormBtn">Close</button>
+        <h2>Add Item</h2>
+        <form action="" method="POST">
+            <!-- Input fields for each column -->
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year" required>
+            </div>
+            <div class="form-group">
+                <label for="locCode">Library of Congress Code:</label>
+                <input type="text" id="locCode" name="locCode" required>
+            </div>
+            <div class="form-group">
+                <label for="shelfCode">Shelf Location Code:</label>
+                <input type="text" id="shelfCode" name="shelfCode" required>
+            </div>
+            <div class="form-group">
+                <label for="cost">Cost:</label>
+                <input type="text" id="cost" name="cost" required>
+            </div>
+            <div class="form-group">
+                <label for="itemType">Item Type:</label>
+                <input type="text" id="itemType" name="itemType" required>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <button type="button" id="generateLabelBtn">Generate Label</button>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" id="addSubmitBtn">Add</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table to Display Inventory -->
+    <div id="inventoryTableContainer">
+        <table id="inventoryTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Library of Congress Code</th>
+                <th>Shelf Location Code</th>
+                <th>Cost</th>
+                <th>Item Type</th>
+                <th>Branch</th>
+                <th>Copies</th>
+                <th>Availability</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Inventory items will be displayed here -->
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer>
+    <p>&copy; 2023 Wayback Public Library</p>
+</footer>
 </body>
 </html>

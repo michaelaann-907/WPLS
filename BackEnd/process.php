@@ -1,9 +1,9 @@
 <?php
 // Credentials to connect to phpMyAdmin
 $host = "localhost"; // Change this to your MySQL server host
-$username = "username"; // Change this to your MySQL username
-$password = "password"; // Change this to your MySQL password
-$database = "dbname"; // Change this to your MySQL database name
+$username = "mp9689"; // Change this to your MySQL username
+$password = "2pOPgPgAnt1Q3Q"; // Change this to your MySQL password
+$database = "mp9689"; // Change this to your MySQL database name
 
 $conn = new mysqli($host, $username, $password, $database);
 
@@ -54,6 +54,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Error: " . $insertQuery . "<br>" . $conn->error;
     }
+}
+
+
+
+
+// catalog.html page
+// Create the "inventory" table if it doesn't exist
+$createTableSQL = "CREATE TABLE IF NOT EXISTS inventory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
+    locCode VARCHAR(255) NOT NULL,
+    shelfCode VARCHAR(255) NOT NULL,
+    cost DECIMAL(10, 2) NOT NULL,
+    itemType VARCHAR(255) NOT NULL,
+    branch VARCHAR(255) NOT NULL,
+    code VARCHAR(8) NOT NULL,
+    copies INT NOT NULL,
+    inStock VARCHAR(3) NOT NULL
+)";
+if ($conn->query($createTableSQL) === FALSE) {
+    echo "Error creating table: " . $conn->error;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve data from the form
+    $title = $_POST["title"];
+    $author = $_POST["author"];
+    $year = $_POST["year"];
+    $locCode = $_POST["locCode"];
+    $shelfCode = $_POST["shelfCode"];
+    $cost = $_POST["cost"];
+    $itemType = $_POST["itemType"];
+    $branch = $_POST["branch"];
+
+    // Generate a random 8-digit code
+    $code = sprintf("%08d", mt_rand(1, 99999999));
+
+    // Insert the data into the "inventory" table
+    $sql = "INSERT INTO inventory (title, author, year, locCode, shelfCode, cost, itemType, branch, code, copies, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'Yes')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssisssssd", $title, $author, $year, $locCode, $shelfCode, $cost, $itemType, $branch, $code);
+
+    if ($stmt->execute()) {
+        echo "Item added successfully.";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+
+    $stmt->close();
 }
 
 $conn->close();
