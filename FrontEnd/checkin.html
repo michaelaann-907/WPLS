@@ -1,10 +1,59 @@
 <!DOCTYPE html>
+<html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../script.js"></script>
+    <title>Wayback Public Library - Library Check In</title>
 </head>
 <body>
+<header>
+    <h1>Welcome to Wayback Public Library</h1>
+    <p>Your Gateway to Knowledge</p>
+</header>
+<nav>
+    <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../catalog.html">Catalog</a></li>
+        <li><a href="checkin.html">Check In</a></li>
+        <li><a href="../checkout.html">Check Out</a></li>
+    </ul>
+</nav>
+<main>
+<h1>Library Check In</h1>
+<form id="checkoutForm" action="" method="post">
+    <label for="bookID">Book ID:</label>
+    <input type="text" id="bookID" name="bookID" required>
+    <br><br>
 
+    <label for="patronName">Patron Name:</label>
+    <input type="text" id="patronName" name="patronName" required>
+    <br><br>
+
+    <label for="patronID">Patron ID:</label>
+    <input type="text" id="patronID" name="patronID" required>
+    <br><br>
+
+    <label for="checkinDate">Check In Date:</label>
+    <input type="date" id="checkinDate" name="checkinDate" required>
+    <br><br>
+
+    <label for="dueDate">Due Date:</label>
+    <input type="date" id="dueDate" name="dueDate" required>
+    <br><br>
+
+    <input type="submit" value="Check In">
+
+</form>
+
+<button id="printReceipt">Print Receipt</button>
+</main>
+<footer>
+    <p>&copy; 2023 Wayback Public Library</p>
+</footer>
 </body>
 </html>
