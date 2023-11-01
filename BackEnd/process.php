@@ -30,6 +30,8 @@ $sql = "CREATE TABLE IF NOT EXISTS PatronAccount (
 $conn->query($sql);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Generate a random 5-digit ID
+    $random_id = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $birthDate = $_POST['birthDate'];
@@ -46,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
     $zipcode = preg_replace('/\D/', '', $zipcode);
 
-    $insertQuery = "INSERT INTO PatronAccount (firstName, lastName, birthDate, email, phoneNumber, street, city, state, zipcode, country, identityConfirmed, accountExpirationDate)
+    $insertQuery = "INSERT INTO PatronAccount (id,firstName, lastName, birthDate, email, phoneNumber, street, city, state, zipcode, country, identityConfirmed, accountExpirationDate)
                     VALUES ('$firstName', '$lastName', '$birthDate', '$email', '$phoneNumber', '$street', '$city', '$state', '$zipcode', '$country', '$identityConfirmed', '$accountExpirationDate')";
 
     if ($conn->query($insertQuery) === TRUE) {
@@ -59,53 +61,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-// catalog.html page
-// Create the "inventory" table if it doesn't exist
-$createTableSQL = "CREATE TABLE IF NOT EXISTS inventory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    year INT NOT NULL,
-    locCode VARCHAR(255) NOT NULL,
-    shelfCode VARCHAR(255) NOT NULL,
-    cost DECIMAL(10, 2) NOT NULL,
-    itemType VARCHAR(255) NOT NULL,
-    branch VARCHAR(255) NOT NULL,
-    code VARCHAR(8) NOT NULL,
-    copies INT NOT NULL,
-    inStock VARCHAR(3) NOT NULL
+
+//catalog.html inventory table
+// Needs the following
+/*
+ * ID (Primary Key)
+Title
+Author
+Year
+Library of Congress Code
+Shelf Location Code
+Cost
+ItemType
+Branch
+Copies (may add later)
+InStock (may add later)
+ */
+// Create the inventory table if it doesn't exist
+$sql_create_table = "CREATE TABLE IF NOT EXISTS inventory (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(255) NOT NULL,
+    Author VARCHAR(255) NOT NULL,
+    Year INT NOT NULL,
+    Library_of_Congress_Code VARCHAR(20) NOT NULL,
+    Shelf_Location_Code VARCHAR(20) NOT NULL,
+    Cost DECIMAL(10, 2) NOT NULL,
+    ItemType VARCHAR(50) NOT NULL,
+    Branch VARCHAR(50) NOT NULL
 )";
-if ($conn->query($createTableSQL) === FALSE) {
+
+if ($conn->query($sql_create_table) === TRUE) {
+    echo "Inventory table created or already exists.";
+} else {
     echo "Error creating table: " . $conn->error;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve data from the form
-    $title = $_POST["title"];
-    $author = $_POST["author"];
-    $year = $_POST["year"];
-    $locCode = $_POST["locCode"];
-    $shelfCode = $_POST["shelfCode"];
-    $cost = $_POST["cost"];
-    $itemType = $_POST["itemType"];
-    $branch = $_POST["branch"];
+// Generate a random 8-digit ID
+$random_id = mt_rand(10000000, 99999999);
 
-    // Generate a random 8-digit code
-    $code = sprintf("%08d", mt_rand(1, 99999999));
+// Retrieve data from the catalog.html form
+$title = $_POST['title'];
+$author = $_POST['author'];
+$year = $_POST['year'];
+$locCode = $_POST['locCode'];
+$shelfCode = $_POST['shelfCode'];
+$cost = $_POST['cost'];
+$itemType = $_POST['itemType'];
+$branch = $_POST['branch'];
 
-    // Insert the data into the "inventory" table
-    $sql = "INSERT INTO inventory (title, author, year, locCode, shelfCode, cost, itemType, branch, code, copies, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'Yes')";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssisssssd", $title, $author, $year, $locCode, $shelfCode, $cost, $itemType, $branch, $code);
+// Insert data into the inventory table
+$sql_insert = "INSERT INTO inventory (ID, Title, Author, Year, Library_of_Congress_Code, Shelf_Location_Code, Cost, ItemType, Branch) 
+        VALUES ('$random_id', '$title', '$author', '$year', '$locCode', '$shelfCode', '$cost', '$itemType', '$branch')";
 
-    if ($stmt->execute()) {
-        echo "Item added successfully.";
-    } else {
-        echo "Error: " . $conn->error;
-    }
-
-    $stmt->close();
+if ($conn->query($sql_insert) === TRUE) {
+    echo "Item added to inventory successfully!";
+} else {
+    echo "Error: " . $sql_insert . "<br>" . $conn->error;
 }
+
 
 $conn->close();
 ?>
