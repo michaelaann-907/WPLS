@@ -159,7 +159,48 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-/* -------------- page -------------- */
+
+
+
+// JavaScript for catalog.html
+document.addEventListener("DOMContentLoaded", function () {
+    const addItemBtn = document.getElementById("addItemBtn");
+    const addItemFormContainer = document.getElementById("addItemFormContainer");
+
+    // Add Item Button Click Event
+    addItemBtn.addEventListener("click", toggleAddItemForm);
+
+});
+
+
+
+
+
+
+/* -------------- checkout.html -------------- */
+// Function to print the receipt and close the popup
+document.getElementById("printReceipt").addEventListener("click", function () {
+    var bookID = document.getElementById("bookID").value;
+    var patronName = document.getElementById("patronName").value;
+    var patronID = document.getElementById("patronID").value;
+    var dueDate = document.getElementById("dueDate").value;
+
+    // Create a receipt content
+    var receiptContent = "Book ID: " + bookID + "\n";
+    receiptContent += "Patron Name: " + patronName + "\n";
+    receiptContent += "Patron ID: " + patronID + "\n";
+    receiptContent += "Due Date: " + dueDate + "\n";
+
+    // Create a new window for printing
+    var printWindow = window.open('', '', 'width=600,height=600');
+    printWindow.document.open();
+    printWindow.document.write('<html><body><pre>' + receiptContent + '</pre></body></html>');
+    printWindow.document.close();
+
+    // Print and close the window
+    printWindow.print();
+    printWindow.close();
+});
 /* -------------- page -------------- */
 /* -------------- page -------------- */
 /* -------------- page -------------- */

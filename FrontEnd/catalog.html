@@ -7,12 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
     <title>Wayback Public Library - Catalog</title>
-    <style>
-        /* Add your CSS styles for the dropdown form here */
-        #addItemFormContainer {
-            display: none;
-        }
-    </style>
+
 </head>
 <body>
 <header>
@@ -39,10 +34,11 @@
     <button id="addItemBtn">Add Item</button>
 
     <!-- Dropdown Form to Add Item -->
-    <div id="addItemFormContainer">
+    <!-- Form to Add Item (Initially Hidden) -->
+    <div id="addItemFormContainer" style="display: none;">
         <button class="closeBtn" id="closeFormBtn">Close</button>
         <h2>Add Item</h2>
-        <form action="" method="POST">
+        <form action="process.php" method="POST">
             <!-- Input fields for each column -->
             <div class="form-group">
                 <label for="title">Title:</label>
@@ -76,6 +72,7 @@
                 <label for="branch">Branch:</label>
                 <input type="text" id="branch" name="branch" required>
             </div>
+
             <div class="form-group">
                 <button type="button" id="generateLabelBtn">Generate Label</button>
             </div>
@@ -98,18 +95,32 @@
                 <th>Library of Congress Code</th>
                 <th>Shelf Location Code</th>
                 <th>Cost</th>
-                <th>Item Type</th>
+                <th>ItemType</th>
                 <th>Branch</th>
-                <th>Copies</th>
-                <th>Availability</th>
-                <th>Action</th>
+                <th>Action</th> <!-- Added table header for Action - such as delete button-->
             </tr>
             </thead>
             <tbody>
             <!-- Inventory items will be displayed here -->
+            <tr>
+                <td class="item-id">1</td>
+                <td>Title 1</td>
+                <td>Author 1</td>
+                <td>Year 1</td>
+                <td>LOC Code 1</td>
+                <td>Shelf Code 1</td>
+                <td>10.00</td>
+                <td>Book</td>
+                <td>Branch 1</td>
+                <td>
+                    <button class="delete-button" data-id="ITEM_ID">Delete</button>
+                </td>
+            </tr>
+            <!-- More rows can be added here -->
             </tbody>
         </table>
     </div>
+
 </main>
 <footer>
     <p>&copy; 2023 Wayback Public Library</p>
