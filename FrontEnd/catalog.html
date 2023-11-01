@@ -38,7 +38,7 @@
     <div id="addItemFormContainer" style="display: none;">
         <button class="closeBtn" id="closeFormBtn">Close</button>
         <h2>Add Item</h2>
-        <form action="process.php" method="POST">
+        <form action="inventory.php" method="POST">
             <!-- Input fields for each column -->
             <div class="form-group">
                 <label for="title">Title:</label>
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label for="year">Year:</label>
-                <input type="number" id="year" name="year" required>
+                <input type="text" id="year" name="year" required pattern="\d{4}" title="Please enter a valid year (YYYY)">
             </div>
             <div class="form-group">
                 <label for="locCode">Library of Congress Code:</label>
@@ -71,6 +71,14 @@
             <div class="form-group">
                 <label for="branch">Branch:</label>
                 <input type="text" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <label for="copies">Copies:</label>
+                <input type="text" id="copies" name="copies" required min="0">
+            </div>
+            <div class="form-group">
+                <label for="inStock">In Stock:</label>
+                <input type="text" id="inStock" name="inStock" required min="0">
             </div>
 
             <div class="form-group">
@@ -125,5 +133,22 @@
 <footer>
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
+
+<script>
+    // Validate the year on form submission
+    document.getElementById('addSubmitBtn').addEventListener('click', function (event) {
+        const year = document.getElementById('year').value;
+        if (!isValidYear(year)) {
+            event.preventDefault();
+            alert('Please enter a valid year (YYYY).');
+        }
+    });
+
+    // Function to check if the input is a valid year (YYYY)
+    function isValidYear(year) {
+        return /^\d{4}$/.test(year);
+    }
+</script>
+
 </body>
 </html>
