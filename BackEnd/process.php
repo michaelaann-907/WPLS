@@ -26,7 +26,8 @@ $sql = "CREATE TABLE IF NOT EXISTS PatronAccount (
     zipcode VARCHAR(5) NOT NULL,
     country VARCHAR(50) NOT NULL,
     identityConfirmed ENUM('yes', 'no') NOT NULL,
-    accountExpirationDate DATE NOT NULL
+    accountExpirationDate DATE NOT NULL,
+    lateFees DECIMAL(10, 2) DEFAULT 0
 )";
 
 $conn->query($sql);
@@ -51,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zipcode = preg_replace('/\D/', '', $zipcode); // Remove non-numeric characters
 
     // SQL query to insert form data into the PatronAccount table
-    $insertQuery = "INSERT INTO PatronAccount (firstName, lastName, birthDate, email, phoneNumber, street, city, state, zipcode, country, identityConfirmed, accountExpirationDate)
-                    VALUES ('$firstName', '$lastName', '$birthDate', '$email', '$phoneNumber', '$street', '$city', '$state', '$zipcode', '$country', '$identityConfirmed', '$accountExpirationDate')";
+    $insertQuery = "INSERT INTO PatronAccount (firstName, lastName, birthDate, email, phoneNumber, street, city, state, zipcode, country, identityConfirmed, accountExpirationDate, lateFees)
+                    VALUES ('$firstName', '$lastName', '$birthDate', '$email', '$phoneNumber', '$street', '$city', '$state', '$zipcode', '$country', '$identityConfirmed', '$accountExpirationDate', 0)";
 
     if ($conn->query($insertQuery) === TRUE) {
         echo "New record created successfully";
