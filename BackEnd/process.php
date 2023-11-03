@@ -5,7 +5,6 @@ $username = "username"; // Change this to your MySQL username
 $password = "password"; // Change this to your MySQL password
 $database = "database"; // Change this to your MySQL database name
 
-
 // Create a connection to the database
 $conn = new mysqli($host, $username, $password, $database);
 
@@ -15,7 +14,7 @@ if ($conn->connect_error) {
 
 // Check if the table 'PatronAccount' exists, if not, create the table
 $sql = "CREATE TABLE IF NOT EXISTS PatronAccount (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    patronID INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(50) NOT NULL,
     lastName VARCHAR(50) NOT NULL,
     birthDate DATE NOT NULL,
@@ -50,8 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Format data for insertion
     $phoneNumber = preg_replace('/\D/', '', $phoneNumber); // Remove non-numeric characters
     $zipcode = preg_replace('/\D/', '', $zipcode); // Remove non-numeric characters
-    $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
-    $zipcode = preg_replace('/\D/', '', $zipcode);
 
     // SQL query to insert form data into the PatronAccount table
     $insertQuery = "INSERT INTO PatronAccount (firstName, lastName, birthDate, email, phoneNumber, street, city, state, zipcode, country, identityConfirmed, accountExpirationDate)
