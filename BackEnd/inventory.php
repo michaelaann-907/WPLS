@@ -13,16 +13,17 @@ if ($conn->connect_error) {
 // Check if the table 'Inventory' exists, if not, create the table
 $sql = "CREATE TABLE IF NOT EXISTS Inventory (
     itemID INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255),
-    author VARCHAR(255),
-    year YEAR,
-    libraryOfCongressCode INT,
-    shelfLocationCode VARCHAR(255),
-    cost INT,
-    itemType INT,
-    branch INT,
-    copies INT,
-    inStock INT
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    year YEAR NOT NULL,
+    libraryOfCongressCode VARCHAR(20) NOT NULL,
+    shelfLocationCode VARCHAR(10) NOT NULL,
+    cost DECIMAL(10, 2) NOT NULL,
+    lateFee DECIMAL(10, 2) NOT NULL,
+    itemType VARCHAR(50) NOT NULL,
+    branch VARCHAR(50) NOT NULL,
+    copies INT NOT NULL,
+    inStock INT NOT NULL
 )";
 
 $conn->query($sql);
@@ -32,16 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'])) {
     $title = $_POST['title'];
     $author = $_POST['author'];
     $year = $_POST['year'];
-    $libraryOfCongressCode = $_POST['locCode'];
-    $shelfLocationCode = $_POST['shelfCode'];
+    $libraryOfCongressCode = $_POST['locCode']; 
+    $shelfLocationCode = $_POST['shelfCode']; 
     $cost = $_POST['cost'];
+    $lateFee = $_POST['lateFee'];
     $itemType = $_POST['itemType'];
     $branch = $_POST['branch'];
     $copies = $_POST['copies'];
     $inStock = $_POST['inStock'];
 
-    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, itemType, branch, copies, inStock)
-                    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$itemType', '$branch', '$copies', '$inStock')";
+    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, branch, copies, inStock)
+                    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$branch', '$copies', '$inStock')";
 
     if ($conn->query($insertQuery) === TRUE) {
         echo "New Inventory record created successfully";
