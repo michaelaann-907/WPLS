@@ -1,14 +1,8 @@
 <?php
-$host = "localhost"; // Change this to your MySQL server host
-$username = "username"; // Change this to your MySQL username
-$password = "password"; // Change this to your MySQL password
-$database = "database"; // Change this to your MySQL database name
+include('db_connection.php'); // Include the database connection file
 
-$conn = new mysqli($host, $username, $password, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Check if the table 'Inventory' exists, if not, create the table
 $sql = "CREATE TABLE IF NOT EXISTS Inventory (

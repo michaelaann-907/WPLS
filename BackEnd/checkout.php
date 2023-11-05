@@ -1,14 +1,7 @@
 <?php
-$host = "localhost"; // Change this to your MySQL server host
-$username = "username"; // Change this to your MySQL username
-$password = "password"; // Change this to your MySQL password
-$database = "username"; // Change this to your MySQL database name
+include('db_connection.php'); // Include the database connection file
 
-$conn = new mysqli($host, $username, $password, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Check if Checkout table exists, if not create it
 $createTableQuery = "CREATE TABLE IF NOT EXISTS Checkout (
@@ -21,7 +14,8 @@ $createTableQuery = "CREATE TABLE IF NOT EXISTS Checkout (
     FOREIGN KEY (itemID) REFERENCES Inventory(itemID)
 )";
 
-if ($conn->query($createTableQuery) !== true) {
+if ($conn->query($createTableQuery) === false) {
+    // Table creation failed, so display the error message
     echo "Error creating table: " . $conn->error;
 }
 

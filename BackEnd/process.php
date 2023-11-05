@@ -1,16 +1,7 @@
 <?php
-// Credentials to connect to phpMyAdmin
-$host = "localhost"; // Change this to your MySQL server host
-$username = "username"; // Change this to your MySQL username
-$password = "password"; // Change this to your MySQL password
-$database = "database"; // Change this to your MySQL database name
+include('db_connection.php'); // Include the database connection file
 
-// Create a connection to the database
-$conn = new mysqli($host, $username, $password, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Check if the table 'PatronAccount' exists, if not, create the table
 $sql = "CREATE TABLE IF NOT EXISTS PatronAccount (
@@ -61,5 +52,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $insertQuery . "<br>" . $conn->error;
     }
 }
+
+
+
+
+// SQL query to fetch data from the PatronAccount table
+$sql = "SELECT * FROM PatronAccount";
+$result = $conn->query($sql);
+
+$data = array();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+}
+
+echo json_encode($data); // Return data as JSON
 $conn->close();
 ?>
