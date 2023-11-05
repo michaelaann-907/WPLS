@@ -57,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($insertQuery) === TRUE) {
         echo "New record created successfully";
+        // Call the script to update late fees
+        require_once 'updateLateFees.php';
     } else {
         echo "Error: " . $insertQuery . "<br>" . $conn->error;
     }
