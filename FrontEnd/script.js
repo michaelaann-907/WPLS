@@ -1,6 +1,51 @@
-/* -------------- addpatron.html page -------------- */
+$(document).ready(function() {
+    // Function to fetch and display PatronAccount table data
+    function fetchTableData() {
+        $.ajax({
+            url: 'fetch_patron_data.php',
+            type: 'GET',
+            dataType: 'html',
+            success: function(data) {
+                $('#tableData').html(data); // Display PatronAccount table data
+            },
+            error: function() {
+                console.error('Failed to fetch PatronAccount data.');
+            }
+        });
+    }
 
-/* -------------- Phone Number Format - 10-digit in style XXX-XXX-XXXX -------------- */
+    // Fetch and display PatronAccount table data when the page loads
+    fetchTableData();
+
+    // Handle form submission using AJAX
+    $('#patronForm').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Validate the "identityConfirmed" field
+        var identityConfirmed = $('#identityConfirmed').val();
+        if (identityConfirmed !== "yes") {
+            alert('Please confirm identity with "Yes" to submit the form.');
+            return;
+        }
+
+        // Continue with form submission
+        $.ajax({
+            url: 'process_patron_form.php',
+            type: 'POST',
+            data: $('#patronForm').serialize(), // Serialize the form data
+            success: function() {
+                fetchTableData(); // Update the displayed PatronAccount table data
+                $('#patronForm')[0].reset(); // Clear the form fields
+            },
+            error: function() {
+                console.error('Failed to add a patron.');
+            }
+        });
+    });
+});
+
+
+
 
 // Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -85,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 
 

@@ -65,61 +65,49 @@ footer {
     padding: 10px;
 }
 
-/* Styles for the Patron Registration Form (addpatron.html) */
-.form-container {
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 65px; /* Added margin to create space between the form and footer */
-}
 
-h2 {
-    text-align: center;
-}
 
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-label {
-    font-weight: bold;
-    flex-basis: 30%;
-    padding-right: 10px;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="tel"],
-select {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-button {
+/* Add Patron */
+table {
     width: 100%;
-    background-color: teal;
-    color: #fff;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+    border-collapse: collapse;
 }
 
-button:hover {
-    background-color: gold;
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.delete-button {
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
 
 /* Styles for buttons on the index page (index.html) */
 .buttons-container {
