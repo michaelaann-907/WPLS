@@ -2,7 +2,7 @@
 $host = "localhost"; // Change this to your MySQL server host
 $username = "username"; // Change this to your MySQL username
 $password = "password"; // Change this to your MySQL password
-$database = "database"; // Change this to your MySQL database name
+$database = "username"; // Change this to your MySQL database name
 
 $conn = new mysqli($host, $username, $password, $database);
 

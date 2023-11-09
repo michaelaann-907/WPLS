@@ -1,9 +1,9 @@
 <?php
 // Include your database connection configuration here
 $host = "localhost";
-$username = "mp9689";
-$password = "2pOPgPgAnt1Q3Q";
-$database = "mp9689";
+$username = "username";
+$password = "password";
+$database = "username";
 
 // Create a connection to the database
 $conn = new mysqli($host, $username, $password, $database);
