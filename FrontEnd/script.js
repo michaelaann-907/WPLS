@@ -1,20 +1,28 @@
+/* -------------- Global Functions -------------- */
+
+// Function to fetch and display PatronAccount table data
+// Page: All pages using PatronAccount table
+function fetchTableData() {
+    $.ajax({
+        url: 'fetch_patron_data.php',
+        type: 'GET',
+        dataType: 'html',
+        success: function(data) {
+            $('#tableData').html(data); // Display PatronAccount table data
+        },
+        error: function() {
+            console.error('Failed to fetch PatronAccount data.');
+        }
+    });
+}
+
+/* -------------- Patron Form Submission -------------- */
+
+// Wait for the document to be fully loaded
 $(document).ready(function() {
-    // Function to fetch and display PatronAccount table data
-    function fetchTableData() {
-        $.ajax({
-            url: 'fetch_patron_data.php',
-            type: 'GET',
-            dataType: 'html',
-            success: function(data) {
-                $('#tableData').html(data); // Display PatronAccount table data
-            },
-            error: function() {
-                console.error('Failed to fetch PatronAccount data.');
-            }
-        });
-    }
 
     // Fetch and display PatronAccount table data when the page loads
+    // Page: All pages using PatronAccount table
     fetchTableData();
 
     // Handle form submission using AJAX
@@ -44,8 +52,7 @@ $(document).ready(function() {
     });
 });
 
-
-
+/* -------------- Phone Number Input Formatting -------------- */
 
 // Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -55,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add an event listener for input changes
     phoneNumberInput.addEventListener("input", function () {
         // Remove non-numeric characters
+        // Page: All pages with a phone number input
         var value = this.value.replace(/\D/g, '');
 
         // Limit to 10 digits
@@ -89,11 +97,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 /* -------------- Zipcode Format - 5-digit -------------- */
 
+// Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
     // Get the zipcode input element
+    // Page: All pages with a zipcode input
     var zipcodeInput = document.getElementById("zipcode");
 
     // Add an event listener for input changes
@@ -111,10 +120,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 /* -------------- State Required Field - For United States Only -------------- */
+
+// Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
     // Get the country and state input elements
+    // Page: All pages with country and state inputs
     var countrySelect = document.getElementById("country");
     var stateInput = document.getElementById("state");
 
@@ -131,12 +142,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+/* -------------- Catalog Page Specific JavaScript -------------- */
 
-
-
-
-/* -------------- catalog.html -------------- */
+// Wait for the document to be fully loaded
 document.addEventListener("DOMContentLoaded", function() {
+    // Page: catalog.html
     // Add an event listener to the "Add Item" button
     document.getElementById("addItemBtn").addEventListener("click", function() {
         var addItemForm = document.getElementById("addItemFormContainer");
@@ -205,10 +215,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-
-
-
 // JavaScript for catalog.html
+// Page: catalog.html
 document.addEventListener("DOMContentLoaded", function () {
     const addItemBtn = document.getElementById("addItemBtn");
     const addItemFormContainer = document.getElementById("addItemFormContainer");
@@ -216,37 +224,5 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add Item Button Click Event
     addItemBtn.addEventListener("click", toggleAddItemForm);
 
+    // Additional catalog.html specific JavaScript can be added here
 });
-
-
-
-
-
-
-/* -------------- checkout.html -------------- */
-// Function to print the receipt and close the popup
-document.getElementById("printReceipt").addEventListener("click", function () {
-    var bookID = document.getElementById("bookID").value;
-    var patronName = document.getElementById("patronName").value;
-    var patronID = document.getElementById("patronID").value;
-    var dueDate = document.getElementById("dueDate").value;
-
-    // Create a receipt content
-    var receiptContent = "Book ID: " + bookID + "\n";
-    receiptContent += "Patron Name: " + patronName + "\n";
-    receiptContent += "Patron ID: " + patronID + "\n";
-    receiptContent += "Due Date: " + dueDate + "\n";
-
-    // Create a new window for printing
-    var printWindow = window.open('', '', 'width=600,height=600');
-    printWindow.document.open();
-    printWindow.document.write('<html><body><pre>' + receiptContent + '</pre></body></html>');
-    printWindow.document.close();
-
-    // Print and close the window
-    printWindow.print();
-    printWindow.close();
-});
-/* -------------- page -------------- */
-/* -------------- page -------------- */
-/* -------------- page -------------- */
