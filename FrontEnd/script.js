@@ -215,14 +215,24 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// JavaScript for catalog.html
-// Page: catalog.html
-document.addEventListener("DOMContentLoaded", function () {
-    const addItemBtn = document.getElementById("addItemBtn");
-    const addItemFormContainer = document.getElementById("addItemFormContainer");
+// Additional JavaScript specific to catalog.html can be added here
 
-    // Add Item Button Click Event
-    addItemBtn.addEventListener("click", toggleAddItemForm);
+// Function to fetch and display Inventory table data
+function fetchInventoryTableData() {
+    $.ajax({
+        url: 'inventory.php', // Update with the actual file to fetch inventory data
+        type: 'GET',
+        dataType: 'html',
+        success: function (data) {
+            $('#inventoryTable tbody').html(data); // Display Inventory table data
+        },
+        error: function () {
+            console.error('Failed to fetch Inventory data.');
+        }
+    });
+}
 
-    // Additional catalog.html specific JavaScript can be added here
-});
+// Additional JavaScript specific to catalog.html can be added here
+
+// Call the function to fetch and display Inventory table data
+fetchInventoryTableData();

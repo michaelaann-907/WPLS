@@ -46,5 +46,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'])) {
     }
 }
 
+
+// Fetch Inventory table data
+$sql = "SELECT * FROM Inventory";
+$result = $conn->query($sql);
+
+// Display table data
+if ($result->num_rows > 0) {
+    echo "<table>";
+
+    // Display table rows
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        foreach ($row as $columnName => $value) {
+            echo "<td>" . $value . "</td>";
+        }
+        echo "</tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "Table is empty.";
+}
 $conn->close();
 ?>
