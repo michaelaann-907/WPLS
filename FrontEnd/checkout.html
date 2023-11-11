@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +6,31 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
+
+    <style>
+        #patronID {
+            width: 300px; /* Adjust the width as needed */
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 8px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: black; /* Set text color to black or a contrasting color */
+        }
+
+
+        #patronID option {
+            padding: 8px;
+        }
+
+        #patronID:focus {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+
+
     <title>Wayback Public Library - Library Check Out</title>
 </head>
 <body>
@@ -24,37 +47,37 @@
     </ul>
 </nav>
 <main>
-<h1>Library Checkout</h1>
-<form id="checkoutForm" action="checkout.php" method="post">
-    <label for="bookID">Item ID:</label>
-    <input type="text" id="bookID" name="bookID" required>
-    <br><br>
+    <h1>Library Checkout</h1>
+    <form id="checkoutForm" action="checkout.php" method="post">
+        <label for="bookID">Item ID:</label>
+        <input type="text" id="bookID" name="bookID" required>
+        <br><br>
 
-    <label for="patronName">Patron Name:</label>
-    <input type="text" id="patronName" name="patronName" required>
-    <br><br>
+        <!-- Patron ID Dropdown -->
+        <label for="patronID">Patron ID:</label>
+        <select id="patronID" name="patronID" required>
+            <!-- Options will be dynamically populated using JavaScript -->
+        </select>
+        <br><br>
 
-    <label for="patronID">Patron ID:</label>
-    <input type="text" id="patronID" name="patronID" required>
-    <br><br>
+        <label for="checkoutDate">Check Out Date:</label>
+        <input type="date" id="checkoutDate" name="checkoutDate" required>
+        <br><br>
 
-    <label for="checkoutDate">Check Out Date:</label>
-    <input type="date" id="checkoutDate" name="checkoutDate" required>
-    <br><br>
+        <label for="dueDate">Due Date:</label>
+        <input type="date" id="dueDate" name="dueDate" required>
+        <br><br>
 
-    <label for="dueDate">Due Date:</label>
-    <input type="date" id="dueDate" name="dueDate" required>
-    <br><br>
+        <input type="submit" value="Check Out">
+    </form>
 
-    <input type="submit" value="Check Out">
-
-</form>
-
-<button id="printReceipt">Print Receipt</button>
+    <button id="printReceipt">Print Receipt</button>
 </main>
 <footer>
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
+
+
+
 </body>
 </html>
-

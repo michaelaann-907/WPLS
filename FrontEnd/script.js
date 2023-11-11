@@ -215,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// Additional JavaScript specific to catalog.html can be added here
 
 // Function to fetch and display Inventory table data
 function fetchInventoryTableData() {
@@ -232,7 +231,39 @@ function fetchInventoryTableData() {
     });
 }
 
-// Additional JavaScript specific to catalog.html can be added here
 
 // Call the function to fetch and display Inventory table data
 fetchInventoryTableData();
+
+$(document).ready(function() {
+    $.ajax({
+        url: 'checkout.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log('Data received:', data);  // Log the received data
+            var patronDropdown = $('#patronID');
+
+            // default option when no item is selected
+            patronDropdown.append($('<option>', {
+                value: '',
+                text: 'Select Patron', // default text when no item selected
+                disabled: true,
+                selected: true
+            }));
+
+            // Populate the rest of the options
+            $.each(data, function (index, value) {
+                // Construct the option text with both patron ID and full name
+                var optionText = value.patronID + ' - ' + value.firstName + ' ' + value.lastName;
+                patronDropdown.append($('<option>', {
+                    value: value.patronID,
+                    text: optionText
+                }));
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Failed to fetch Patron data. Status:', status, 'Error:', error);
+        }
+    });
+});
