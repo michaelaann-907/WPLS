@@ -1,16 +1,7 @@
 <?php
-// Credentials to connect to your MySQL database
-$host = "localhost"; // Change this to your MySQL server host
-$username = "username"; // Change this to your MySQL username
-$password = "password"; // Change this to your MySQL password
-$database = "database"; // Change this to your MySQL database name
+// Include your database connection configuration here
+include 'db_connection.php';
 
-// Establish a connection to the database
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Function to calculate late fees
 function calculateLateFees($patronID, $itemID, $dueDate, $conn) {

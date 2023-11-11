@@ -1,18 +1,8 @@
 <?php
-// Include your database connection configuration here
-$host = "localhost";
-$username = "username";
-$password = "password";
-$database = "username";
-
-// Create a connection to the database
-$conn = new mysqli($host, $username, $password, $database);
+// Include the database connection file
+include 'db_connection.php';
 
 try {
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     // Check if the PatronAccount table exists and create it if it doesn't
     $sql = "CREATE TABLE IF NOT EXISTS PatronAccount (
         patronID INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,6 +21,7 @@ try {
         lateFees DECIMAL(10, 2) DEFAULT 0
     )";
 
+    // Use the global $conn variable from the included file
     $conn->query($sql);
 
     // Fetch PatronAccount table data and display it as an HTML table
@@ -57,9 +48,10 @@ try {
     } else {
         echo "Table is empty.";
     }
+
+    // Close the database connection
+    $conn->close();
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }
-
-$conn->close();
 ?>
