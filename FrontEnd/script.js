@@ -234,36 +234,61 @@ function fetchInventoryTableData() {
 
 // Call the function to fetch and display Inventory table data
 fetchInventoryTableData();
-
 $(document).ready(function() {
+    // Function to populate patron dropdown
+    function populatePatronDropdown(dropdown, data, defaultText) {
+        dropdown.empty();
+        dropdown.append($('<option>', {
+            value: '',
+            text: defaultText,
+            disabled: true,
+            selected: true
+        }));
+
+        $.each(data, function (index, value) {
+            dropdown.append($('<option>', {
+                value: value.patronID,
+                text: `${value.patronID} - ${value.firstName} ${value.lastName}`
+            }));
+        });
+    }
+
+    // Function to populate item dropdown
+    function populateItemDropdown(dropdown, data, defaultText) {
+        dropdown.empty();
+        dropdown.append($('<option>', {
+            value: '',
+            text: defaultText,
+            disabled: true,
+            selected: true
+        }));
+
+        $.each(data, function (index, value) {
+            dropdown.append($('<option>', {
+                value: value.itemID,
+                text: `${value.itemID} - ${value.title} - ${value.author} - ${value.itemType}`
+            }));
+        });
+    }
+
+    // Fetch and populate dropdowns
     $.ajax({
         url: 'checkout.php',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            console.log('Data received:', data);  // Log the received data
+            console.log('Data received:', data);
             var patronDropdown = $('#patronID');
+            var itemDropdown = $('#itemID');
 
-            // default option when no item is selected
-            patronDropdown.append($('<option>', {
-                value: '',
-                text: 'Select Patron', // default text when no item selected
-                disabled: true,
-                selected: true
-            }));
+            // Populate patron dropdown
+            populatePatronDropdown(patronDropdown, data.patronData, 'Select Patron');
 
-            // Populate the rest of the options
-            $.each(data, function (index, value) {
-                // Construct the option text with both patron ID and full name
-                var optionText = value.patronID + ' - ' + value.firstName + ' ' + value.lastName;
-                patronDropdown.append($('<option>', {
-                    value: value.patronID,
-                    text: optionText
-                }));
-            });
+            // Populate item dropdown
+            populateItemDropdown(itemDropdown, data.itemData, 'Select Item');
         },
         error: function (xhr, status, error) {
-            console.error('Failed to fetch Patron data. Status:', status, 'Error:', error);
+            console.error('Failed to fetch data. Status:', status, 'Error:', error);
         }
     });
 });

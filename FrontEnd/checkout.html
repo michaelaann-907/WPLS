@@ -28,6 +28,26 @@
             position: relative;
             z-index: 1;
         }
+        #itemID {
+            width: 300px; /* Adjust the width as needed */
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 8px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: black; /* Set text color to black or a contrasting color */
+        }
+
+
+        #itemID option {
+            padding: 8px;
+        }
+
+        #itemID:focus {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 
 
@@ -49,8 +69,10 @@
 <main>
     <h1>Library Checkout</h1>
     <form id="checkoutForm" action="checkout.php" method="post">
-        <label for="bookID">Item ID:</label>
-        <input type="text" id="bookID" name="bookID" required>
+        <label for="itemID">Item ID:</label>
+        <select id="itemID" name="itemID" required>
+            <!-- Options will be dynamically populated using JavaScript -->
+        </select>
         <br><br>
 
         <!-- Patron ID Dropdown -->
