@@ -15,27 +15,6 @@ $sqlCheckInTable = "CREATE TABLE IF NOT EXISTS CheckIn (
 
 $conn->query($sqlCheckInTable);
 
-// Check if the table 'Checkout' exists, if not, create the table
-$sqlCheckoutTable = "CREATE TABLE IF NOT EXISTS Checkout (
-    checkoutID INT AUTO_INCREMENT PRIMARY KEY,
-    patronID INT,
-    itemID INT,
-    checkoutDate DATE,
-    dueDate DATE,
-    FOREIGN KEY (patronID) REFERENCES PatronAccount(patronID),
-    FOREIGN KEY (itemID) REFERENCES Inventory(itemID)
-)";
-
-$conn->query($sqlCheckoutTable);
-
-// Check if the table 'PatronAccount' exists, if not, create the table
-$sqlPatronAccountTable = "CREATE TABLE IF NOT EXISTS PatronAccount (
-    patronID INT AUTO_INCREMENT PRIMARY KEY,
-    lateFees DECIMAL(10, 2)
-)";
-
-$conn->query($sqlPatronAccountTable);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
     $itemID = $_POST['itemID'];
 
@@ -49,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
 
         // Insert data into CheckIn table
         $returnDate = date("Y-m-d"); // Current date
-        $branchReturned = "YourBranch"; // Update with the actual branch
+        $branchReturned = "Branch"; // Update with the actual branch -- field to be adjusted
         $checkinInsertQuery = "INSERT INTO CheckIn (patronID, itemID, returnDate, branchReturned)
                                VALUES ('$patronID', '$itemID', '$returnDate', '$branchReturned')";
         $conn->query($checkinInsertQuery);
