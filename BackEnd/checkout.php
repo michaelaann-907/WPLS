@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Retrieve form data
         $patronID = $_POST['patronID'];
-        $itemID = $_POST['bookID'];
+        $itemID = $_POST['itemID'];
         $dueDate = $_POST['dueDate'];
         $checkoutDate = $_POST['checkoutDate'];
 
