@@ -70,7 +70,7 @@
     <h1>Library Checkout</h1>
     <form id="checkoutForm" action="checkout.php" method="post">
         <label for="itemID">Item ID:</label>
-        <select id="itemID" name="itemID" required>
+        <select id="itemID" name="itemID" required onchange="updateDueDate()">
             <!-- Options will be dynamically populated using JavaScript -->
         </select>
         <br><br>
@@ -111,6 +111,35 @@
         const formattedDate = today.toISOString().split('T')[0];
         checkoutDateInput.value = formattedDate;
     });
+    
+    function updateDueDate() {
+        // Get the selected item's ID
+        var itemID = document.getElementById('itemID').value;
+
+        // Make an AJAX request to retrieve the duration for the selected item
+        $.ajax({
+            type: 'POST',
+            url: 'getDuration.php', // Create a new PHP file to handle this request
+            data: { itemID: itemID },
+            success: function (response) {
+                // Parse the response JSON
+                var duration = JSON.parse(response).duration;
+
+                // Calculate the due date based on the checkout date
+                var checkoutDate = new Date(document.getElementById('checkoutDate').value);
+                checkoutDate.setDate(checkoutDate.getDate() + duration);
+
+                // Format the due date as 'YYYY-MM-DD'
+                var formattedDueDate = checkoutDate.toISOString().split('T')[0];
+
+                // Set the calculated due date to the 'dueDate' input field
+                document.getElementById('dueDate').value = formattedDueDate;
+            },
+            error: function () {
+                console.error('Error fetching duration for item ID ' + itemID);
+            }
+        });
+    }
 </script>
 
 </body>
