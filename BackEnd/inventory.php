@@ -17,7 +17,6 @@ $sql = "CREATE TABLE IF NOT EXISTS Inventory (
     itemType VARCHAR(50) NOT NULL,
     duration INT NOT NULL,  -- Add duration column
     branch VARCHAR(50) NOT NULL,
-    copies INT NOT NULL,
     inStock INT NOT NULL
 )";
 
@@ -35,11 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'])) {
     $itemType = $_POST['itemType'];
     $duration = $_POST['duration'];
     $branch = $_POST['branch'];
-    $copies = $_POST['copies'];
     $inStock = $_POST['inStock'];
 
-    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, copies, inStock)
-    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$duration', '$branch', '$copies', '$inStock')";
+    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
+    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$duration', '$branch', '$inStock')";
 
     if ($conn->query($insertQuery) === TRUE) {
         echo "New Inventory record created successfully";
