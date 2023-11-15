@@ -99,7 +99,19 @@
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
 
-
+<script>
+    // Set the default check-out date as today based on the system's time zone
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkoutDateInput = document.getElementById('checkoutDate');
+        const today = new Date();
+        
+        // Adjust the date to match the local date in the system's time zone
+        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+        
+        const formattedDate = today.toISOString().split('T')[0];
+        checkoutDateInput.value = formattedDate;
+    });
+</script>
 
 </body>
 </html>
