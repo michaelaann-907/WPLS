@@ -15,6 +15,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Inventory (
     cost DECIMAL(10, 2) NOT NULL,
     lateFee DECIMAL(10, 2) NOT NULL,
     itemType VARCHAR(50) NOT NULL,
+    duration INT NOT NULL,  -- Add duration column
     branch VARCHAR(50) NOT NULL,
     copies INT NOT NULL,
     inStock INT NOT NULL
@@ -32,12 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'])) {
     $cost = $_POST['cost'];
     $lateFee = $_POST['lateFee'];
     $itemType = $_POST['itemType'];
+    $duration = $_POST['duration'];
     $branch = $_POST['branch'];
     $copies = $_POST['copies'];
     $inStock = $_POST['inStock'];
 
-    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, branch, copies, inStock)
-                    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$branch', '$copies', '$inStock')";
+    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, copies, inStock)
+    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$duration', '$branch', '$copies', '$inStock')";
 
     if ($conn->query($insertQuery) === TRUE) {
         echo "New Inventory record created successfully";
@@ -69,4 +71,4 @@ if ($result->num_rows > 0) {
     echo "Table is empty.";
 }
 
-
+?>
