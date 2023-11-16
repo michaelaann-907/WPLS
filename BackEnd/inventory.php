@@ -80,6 +80,10 @@ try {
                 foreach ($row as $columnName => $value) {
                     echo "<td>" . htmlspecialchars($value) . "</td>"; // Sanitize data for HTML output
                 }
+
+                // Add delete button to the last column
+                echo '<td><button class="delete-button" data-id="' . $row['itemID'] . '">Delete</button></td>';
+
                 echo "</tr>";
             }
 

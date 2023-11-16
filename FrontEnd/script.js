@@ -19,6 +19,30 @@ function fetchTableData() {
         }
     });
 }
+// Add click event handler for delete buttons using event delegation
+$(document).on("click", ".delete-button", function() {
+    var $button = $(this); // Store the reference to $(this)
+
+    var itemIdToDelete = $button.attr("data-id");
+    console.log("Deleting item with ID:", itemIdToDelete);
+
+    // Perform AJAX request to delete the item with itemIdToDelete
+    $.ajax({
+        url: 'delete_item.php',
+        type: 'POST',
+        data: { itemId: itemIdToDelete },
+        success: function () {
+            console.log("Item deleted successfully.");
+            // Remove the corresponding row from the table
+            $button.closest("tr").remove();
+        },
+        error: function (xhr, status, error) {
+            console.error('Failed to delete item with ID:', itemIdToDelete, 'Status:', status, 'Error:', error);
+        }
+    });
+});
+
+
 
 
 // * Patron Form Submission *
@@ -150,6 +174,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+
+
+
+
 /* ----------------------- catalog.html ----------------------- */
 $(document).ready(function() {
     // Page: catalog.html
@@ -261,7 +292,7 @@ $(document).ready(function() {
         var tableBody = $("#inventoryTableBody");
         tableBody.empty();
 
-        $.each(data, function (index, item) {
+        $.each(data, function(index, item) {
             var row = $("<tr>");
             row.append($("<td>").text(item.itemID));
             row.append($("<td>").text(item.title));
@@ -275,11 +306,35 @@ $(document).ready(function() {
             row.append($("<td>").text(item.duration));
             row.append($("<td>").text(item.branch));
             row.append($("<td>").text(item.inStock));
-            row.append($("<td>").append($("<button>").addClass("delete-button").attr("data-id", item.itemID).text("Delete")));
+
+            // Add delete button to the action column
+            var deleteButton = $("<button>").addClass("delete-button").attr("data-id", item.itemID).text("Delete");
+            var actionColumn = $("<td>").append(deleteButton);
+            row.append(actionColumn);
 
             tableBody.append(row);
         });
+
+        // Add click event handler for delete buttons
+        $(".delete-button").click(function() {
+            var itemIdToDelete = $(this).attr("data-id");
+            // Perform AJAX request to delete the item with itemIdToDelete
+            // Assuming you have an endpoint like 'delete_item.php'
+            $.ajax({
+                url: 'delete_item.php',
+                type: 'POST',
+                data: { itemId: itemIdToDelete },
+                success: function() {
+                    // Remove the corresponding row from the table
+                    $(this).closest("tr").remove();
+                },
+                error: function() {
+                    console.error('Failed to delete item with ID: ' + itemIdToDelete);
+                }
+            });
+        });
     }
+
 
 // Fetch and display inventory data on page load
     $(document).ready(function () {
@@ -307,6 +362,7 @@ $(document).ready(function() {
             });
         });
     });
+
 
 
 
