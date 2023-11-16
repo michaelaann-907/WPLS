@@ -21,7 +21,7 @@ try {
         itemType VARCHAR(50) NOT NULL,
         duration INT NOT NULL,
         branch VARCHAR(50) NOT NULL,
-        inStock INT NOT NULL DEFAULT 1
+        inStock INT NOT NULL
     )";
 
     if ($conn->query($sqlCreateTable) === FALSE) {
@@ -49,7 +49,7 @@ try {
         } else {
             // Use prepared statement to insert data
             $insertQuery = $conn->prepare("INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
-                                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+                                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             $insertQuery->bind_param("ssssssssss", $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch);
 
@@ -76,16 +76,18 @@ try {
 
             // Display table rows
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
+                echo "<tr data-id='" . $row['itemID'] . "'>";
                 foreach ($row as $columnName => $value) {
-                    echo "<td>" . htmlspecialchars($value) . "</td>"; // Sanitize data for HTML output
+                    echo "<td class='" . $columnName . "'>" . htmlspecialchars($value) . "</td>"; // Sanitize data for HTML output
                 }
 
-                // Add delete button to the last column
+                // Add add-button and delete-button to the last column
+                echo '<td><button class="add-button" data-id="' . $row['itemID'] . '">Add 1</button></td>';
                 echo '<td><button class="delete-button" data-id="' . $row['itemID'] . '">Delete</button></td>';
 
                 echo "</tr>";
             }
+
 
             echo "</table>";
         } else {

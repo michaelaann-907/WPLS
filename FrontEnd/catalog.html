@@ -10,6 +10,7 @@
 
 </head>
 <body>
+<div id="notification" class="hidden"></div>
 <header>
     <h1>Welcome to Wayback Public Library</h1>
     <p>Your Gateway to Knowledge</p>
@@ -97,6 +98,10 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="inStock">In Stock:</label>
+                <input type="number" id="inStock" name="inStock" required>
+            </div>
+            <div class="form-group">
                 <button type="button" id="generateLabelBtn">Generate Label</button>
             </div>
 
@@ -123,7 +128,7 @@
                 <th>Duration (in days)</th>
                 <th>Branch</th>
                 <th>In Stock</th>
-                <th>Action</th>
+                <th colspan="2" style="text-align: center;">Actions</th> <!-- Update this line -->
             </tr>
             </thead>
             <tbody id="inventoryTableBody">

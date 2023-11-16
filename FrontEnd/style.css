@@ -186,3 +186,24 @@ button.update-button:hover {
     color: teal;
 }
 
+
+
+
+
+/* notification style */
+#notification {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
