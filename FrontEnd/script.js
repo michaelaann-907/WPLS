@@ -335,21 +335,31 @@ $(document).ready(function() {
         });
     }
 
+// Flag to track whether form submission is in progress
+    var isFormSubmitting = false;
 
 // Fetch and display inventory data on page load
     $(document).ready(function () {
         fetchInventoryTableData();
-        setInterval(fetchInventoryTableData, 5000); // Refresh table data every 5 seconds (adjust as needed)
 
         // Handle form submission using AJAX
-        $('#addSubmitBtn').click(function (event) {
+        $('#addItemFormContainer form').off('submit').on('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
+
+            // Check if form submission is already in progress
+            if (isFormSubmitting) {
+                console.log('Form submission is already in progress.');
+                return;
+            }
+
+            // Set the flag to indicate form submission is in progress
+            isFormSubmitting = true;
 
             // Continue with form submission
             $.ajax({
                 url: 'inventory.php',
                 type: 'POST',
-                data: $('#addItemFormContainer form').serialize(),
+                data: $(this).serialize(),
                 success: function () {
                     loadInventoryData(); // Update the displayed inventory data
                     fetchInventoryTableData(); // Update the displayed inventory table data
@@ -358,14 +368,29 @@ $(document).ready(function() {
                 },
                 error: function () {
                     console.error('Failed to add an item.');
+                },
+                complete: function () {
+                    // Reset the flag after the form submission is complete
+                    isFormSubmitting = false;
                 }
             });
         });
     });
 
 
-    // Add an event listener for the search button
-    $("#searchBtn").click(function () {
+// Add an event listener to the search input for real-time search
+    $("#searchInput").on('input', function () {
+        performSearch();
+    });
+
+// Add an event listener for the search button
+    $("#searchBtn").click(function (event) {
+        event.preventDefault(); // Prevent the form from submitting (if it's inside a form)
+        performSearch();
+    });
+
+// Function to perform the search and update the table
+    function performSearch() {
         var searchInput = $("#searchInput").val();
         var searchCriteria = $("#searchCriteria").val();
 
@@ -382,13 +407,39 @@ $(document).ready(function() {
                 console.error('Failed to fetch filtered inventory data.');
             }
         });
+    }
+
+
+
+
+
+
+
+// Set the default duration to 14
+    $('#duration').val(14);
+// Add an event listener to the itemType dropdown for real-time duration calculation
+    $('#itemType').off('change').on('change', function () {
+        // Get the selected item type
+        var itemType = $(this).val();
+
+        // Set the duration based on the selected item type
+        var duration = (itemType === 'Book') ? 14 : ((itemType === 'DVD') ? 3 : 0);
+
+        // If the duration is not set based on item type, keep the default value (14)
+        duration = duration || 14;
+
+        // Set the calculated duration in the duration input field
+        $('#duration').val(duration);
     });
 
 
-// ...
+
+
+
+
 
 // Add an event listener to the cost input for real-time late fee calculation
-    $('#cost').on('input', function () {
+    $('#cost').off('input').on('input', function () {
         // Get the cost entered by the user
         var cost = parseFloat($(this).val());
 
@@ -398,31 +449,6 @@ $(document).ready(function() {
         // Set the calculated late fee in the lateFee input field
         $('#lateFee').val(lateFee.toFixed(2));
     });
-
-// Handle form submission using AJAX
-    $('#addSubmitBtn').click(function (event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        // Continue with form submission
-        $.ajax({
-            url: 'inventory.php',
-            type: 'POST',
-            data: $('#addItemFormContainer form').serialize(),
-            success: function () {
-                loadInventoryData(); // Update the displayed inventory data
-                fetchInventoryTableData(); // Update the displayed inventory table data
-                $('#addItemFormContainer').css("display", "none");
-                $('#addItemFormContainer form')[0].reset();
-            },
-            error: function () {
-                console.error('Failed to add an item.');
-            }
-        });
-    });
-// ...
-
-
-
 
 
     /* ----------------------- checkout.html ----------------------- */
