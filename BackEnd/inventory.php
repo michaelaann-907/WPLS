@@ -9,7 +9,7 @@ try {
 
     // Ensure the Inventory table exists, if not, create it
     $sqlCreateTable = "CREATE TABLE IF NOT EXISTS Inventory (
-        itemID INT AUTO_INCREMENT PRIMARY KEY,
+        itemID INT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         author VARCHAR(255) NOT NULL,
         year INT(4) NOT NULL,
@@ -28,8 +28,19 @@ try {
         exit();
     }
 
+
+    // Function to generate a random 6-digit itemID
+    function generateRandomItemID() {
+        return mt_rand(100000, 999999);
+    }
+
+
     // Handle form submission for Inventory
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Generate a random 6-digit itemID
+        $itemID = generateRandomItemID();
+
+
         // Sanitize and validate the input data
         $title = mysqli_real_escape_string($conn, $_POST['title']);
         $author = mysqli_real_escape_string($conn, $_POST['author']);
@@ -49,11 +60,10 @@ try {
             echo "All fields are required.";
         } else {
         // Use prepared statement to insert data
-            $insertQuery = $conn->prepare("INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
-                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $insertQuery = $conn->prepare("INSERT INTO Inventory (itemID, title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $insertQuery->bind_param("ssssssssssi", $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch, $inStock);
-
+            $insertQuery->bind_param("issssssssssi", $itemID, $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch, $inStock);
 
             // Debug information
             echo "Debug Info:";
