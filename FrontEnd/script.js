@@ -1,7 +1,11 @@
-/* -------------- Global Functions -------------- */
 
+
+
+/* -----------------------Add Page Name----------------------- */
+
+/* ---------------------- index.html  ----------------------- */
 // Function to fetch and display PatronAccount table data
-// Page: All pages using PatronAccount table
+// All pages using PatronAccount table
 function fetchTableData() {
     $.ajax({
         url: 'fetch_patron_data.php',
@@ -16,8 +20,8 @@ function fetchTableData() {
     });
 }
 
-/* -------------- Patron Form Submission -------------- */
 
+// * Patron Form Submission *
 // Wait for the document to be fully loaded
 $(document).ready(function() {
 
@@ -142,7 +146,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-/* -------------- Catalog Page Specific JavaScript -------------- */
+
+
+
+
+/* ----------------------- catalog.html ----------------------- */
 $(document).ready(function() {
     // Page: catalog.html
     // Add an event listener to the "Add Item" button
@@ -302,6 +310,8 @@ $(document).ready(function() {
 
 
 
+
+    /* ----------------------- checkout.html ----------------------- */
     // Function to populate patron dropdown
     function populatePatronDropdown(dropdown, data, defaultText) {
         dropdown.empty();
@@ -338,6 +348,7 @@ $(document).ready(function() {
         });
     }
 
+
     // Fetch and populate dropdowns
     $.ajax({
         url: 'checkout.php',
@@ -359,3 +370,10 @@ $(document).ready(function() {
         }
     });
 });
+
+
+
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */

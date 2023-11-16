@@ -13,7 +13,7 @@ try {
         itemID INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         author VARCHAR(255) NOT NULL,
-        year YEAR NOT NULL,
+        year INT(4) NOT NULL,
         libraryOfCongressCode VARCHAR(20) NOT NULL,
         shelfLocationCode VARCHAR(10) NOT NULL,
         cost DECIMAL(10, 2) NOT NULL,
@@ -34,7 +34,7 @@ try {
         // Sanitize and validate the input data
         $title = mysqli_real_escape_string($conn, $_POST['title']);
         $author = mysqli_real_escape_string($conn, $_POST['author']);
-        $year = mysqli_real_escape_string($conn, $_POST['year']);
+        $year = (int)$_POST['year']; //converted to integer w/ 4 digits
         $libraryOfCongressCode = mysqli_real_escape_string($conn, $_POST['locCode']);
         $shelfLocationCode = mysqli_real_escape_string($conn, $_POST['shelfCode']);
         $cost = mysqli_real_escape_string($conn, $_POST['cost']);
