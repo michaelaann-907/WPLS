@@ -143,33 +143,31 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /* -------------- Catalog Page Specific JavaScript -------------- */
-
-// Wait for the document to be fully loaded
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
     // Page: catalog.html
     // Add an event listener to the "Add Item" button
-    document.getElementById("addItemBtn").addEventListener("click", function() {
-        var addItemForm = document.getElementById("addItemFormContainer");
-        addItemForm.style.display = "block";
+    $("#addItemBtn").click(function() {
+        var addItemForm = $("#addItemFormContainer");
+        addItemForm.css("display", "block");
     });
 
     // Add an event listener to the "Close" button
-    document.getElementById("closeFormBtn").addEventListener("click", function() {
-        var addItemForm = document.getElementById("addItemFormContainer");
-        addItemForm.style.display = "none";
+    $("#closeFormBtn").click(function() {
+        var addItemForm = $("#addItemFormContainer");
+        addItemForm.css("display", "none");
     });
 
     // Generate Label Button Click Event
-    document.getElementById("generateLabelBtn").addEventListener("click", function() {
+    $("#generateLabelBtn").click(function() {
         // Get the form input values
-        var title = document.getElementById("title").value;
-        var author = document.getElementById("author").value;
-        var year = document.getElementById("year").value;
-        var locCode = document.getElementById("locCode").value;
-        var shelfCode = document.getElementById("shelfCode").value;
-        var cost = document.getElementById("cost").value;
-        var itemType = document.getElementById("itemType").value;
-        var branch = document.getElementById("branch").value;
+        var title = $("#title").val();
+        var author = $("#author").val();
+        var year = $("#year").val();
+        var locCode = $("#locCode").val();
+        var shelfCode = $("#shelfCode").val();
+        var cost = $("#cost").val();
+        var itemType = $("#itemType").val();
+        var branch = $("#branch").val();
 
         // Generate the label content
         var labelContent = `
@@ -213,28 +211,97 @@ document.addEventListener("DOMContentLoaded", function() {
             labelPopup.close(); // Close the popup window
         });
     });
-});
+
+
+
+
+
 
 
 // Function to fetch and display Inventory table data
-function fetchInventoryTableData() {
-    $.ajax({
-        url: 'inventory.php', // Update with the actual file to fetch inventory data
-        type: 'GET',
-        dataType: 'html',
-        success: function (data) {
-            $('#inventoryTable tbody').html(data); // Display Inventory table data
-        },
-        error: function () {
-            console.error('Failed to fetch Inventory data.');
-        }
+    function fetchInventoryTableData() {
+        $.ajax({
+            url: 'inventory.php',
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                $('#inventoryTable tbody').html(data);
+            },
+            error: function () {
+                console.error('Failed to fetch Inventory table data.');
+            }
+        });
+    }
+
+// Function to fetch and display inventory data
+    function loadInventoryData() {
+        $.ajax({
+            type: "GET",
+            url: "inventory.php",
+            dataType: "json",
+            success: function (data) {
+                displayInventoryData(data);
+            },
+            error: function (error) {
+                console.log("Error fetching inventory data: " + error);
+            }
+        });
+    }
+
+// Function to display inventory data in the table
+    function displayInventoryData(data) {
+        var tableBody = $("#inventoryTableBody");
+        tableBody.empty();
+
+        $.each(data, function (index, item) {
+            var row = $("<tr>");
+            row.append($("<td>").text(item.itemID));
+            row.append($("<td>").text(item.title));
+            row.append($("<td>").text(item.author));
+            row.append($("<td>").text(item.year));
+            row.append($("<td>").text(item.libraryOfCongressCode));
+            row.append($("<td>").text(item.shelfLocationCode));
+            row.append($("<td>").text(item.cost));
+            row.append($("<td>").text(item.lateFee));
+            row.append($("<td>").text(item.itemType));
+            row.append($("<td>").text(item.duration));
+            row.append($("<td>").text(item.branch));
+            row.append($("<td>").text(item.inStock));
+            row.append($("<td>").append($("<button>").addClass("delete-button").attr("data-id", item.itemID).text("Delete")));
+
+            tableBody.append(row);
+        });
+    }
+
+// Fetch and display inventory data on page load
+    $(document).ready(function () {
+        fetchInventoryTableData();
+        setInterval(fetchInventoryTableData, 5000); // Refresh table data every 5 seconds (adjust as needed)
+
+        // Handle form submission using AJAX
+        $('#addSubmitBtn').click(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Continue with form submission
+            $.ajax({
+                url: 'inventory.php',
+                type: 'POST',
+                data: $('#addItemFormContainer form').serialize(),
+                success: function () {
+                    loadInventoryData(); // Update the displayed inventory data
+                    fetchInventoryTableData(); // Update the displayed inventory table data
+                    $('#addItemFormContainer').css("display", "none");
+                    $('#addItemFormContainer form')[0].reset();
+                },
+                error: function () {
+                    console.error('Failed to add an item.');
+                }
+            });
+        });
     });
-}
 
 
-// Call the function to fetch and display Inventory table data
-fetchInventoryTableData();
-$(document).ready(function() {
+
     // Function to populate patron dropdown
     function populatePatronDropdown(dropdown, data, defaultText) {
         dropdown.empty();

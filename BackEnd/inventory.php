@@ -1,72 +1,96 @@
 <?php
-// Include your database connection configuration here
 include 'db_connection.php';
 
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+try {
+    // Your existing database connection code
 
-// Check if the table 'Inventory' exists, if not, create the table
-$sql = "CREATE TABLE IF NOT EXISTS Inventory (
-    itemID INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    year YEAR NOT NULL,
-    libraryOfCongressCode VARCHAR(20) NOT NULL,
-    shelfLocationCode VARCHAR(10) NOT NULL,
-    cost DECIMAL(10, 2) NOT NULL,
-    lateFee DECIMAL(10, 2) NOT NULL,
-    itemType VARCHAR(50) NOT NULL,
-    duration INT NOT NULL,  -- Add duration column
-    branch VARCHAR(50) NOT NULL,
-    inStock INT NOT NULL
-)";
+    // Ensure the Inventory table exists, if not, create it
+    $sqlCreateTable = "CREATE TABLE IF NOT EXISTS Inventory (
+        itemID INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        author VARCHAR(255) NOT NULL,
+        year YEAR NOT NULL,
+        libraryOfCongressCode VARCHAR(20) NOT NULL,
+        shelfLocationCode VARCHAR(10) NOT NULL,
+        cost DECIMAL(10, 2) NOT NULL,
+        lateFee DECIMAL(10, 2) NOT NULL,
+        itemType VARCHAR(50) NOT NULL,
+        duration INT NOT NULL,
+        branch VARCHAR(50) NOT NULL,
+        inStock INT NOT NULL DEFAULT 1
+    )";
 
-$conn->query($sql);
-
-// Handle form submission for Inventory
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'])) {
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $year = $_POST['year'];
-    $libraryOfCongressCode = $_POST['locCode']; 
-    $shelfLocationCode = $_POST['shelfCode']; 
-    $cost = $_POST['cost'];
-    $lateFee = $_POST['lateFee'];
-    $itemType = $_POST['itemType'];
-    $duration = $_POST['duration'];
-    $branch = $_POST['branch'];
-    $inStock = $_POST['inStock'];
-
-    $insertQuery = "INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
-    VALUES ('$title', '$author', '$year', '$libraryOfCongressCode', '$shelfLocationCode', '$cost', '$lateFee', '$itemType', '$duration', '$branch', '$inStock')";
-
-    if ($conn->query($insertQuery) === TRUE) {
-        echo "New Inventory record created successfully";
-    } else {
-        echo "Error: " . $insertQuery . "<br>" . $conn->error;
+    if ($conn->query($sqlCreateTable) === FALSE) {
+        echo "Error creating table: " . $conn->error;
+        exit();
     }
-}
 
+    // Handle form submission for Inventory
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Sanitize and validate the input data
+        $title = mysqli_real_escape_string($conn, $_POST['title']);
+        $author = mysqli_real_escape_string($conn, $_POST['author']);
+        $year = mysqli_real_escape_string($conn, $_POST['year']);
+        $libraryOfCongressCode = mysqli_real_escape_string($conn, $_POST['locCode']);
+        $shelfLocationCode = mysqli_real_escape_string($conn, $_POST['shelfCode']);
+        $cost = mysqli_real_escape_string($conn, $_POST['cost']);
+        $lateFee = mysqli_real_escape_string($conn, $_POST['lateFee']);
+        $itemType = mysqli_real_escape_string($conn, $_POST['itemType']);
+        $duration = mysqli_real_escape_string($conn, $_POST['duration']);
+        $branch = mysqli_real_escape_string($conn, $_POST['branch']);
 
-// Fetch Inventory table data
-$sql = "SELECT * FROM Inventory";
-$result = $conn->query($sql);
+        // Basic form validation
+        if (empty($title) || empty($author) || empty($year) || empty($libraryOfCongressCode) || empty($shelfLocationCode) || empty($cost) || empty($lateFee) || empty($itemType) || empty($duration) || empty($branch)) {
+            echo "All fields are required.";
+        } else {
+            // Use prepared statement to insert data
+            $insertQuery = $conn->prepare("INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
+                                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
 
-// Display table data
-if ($result->num_rows > 0) {
-    echo "<table>";
+            $insertQuery->bind_param("ssssssssss", $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch);
 
-    // Display table rows
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        foreach ($row as $columnName => $value) {
-            echo "<td>" . $value . "</td>";
+            if ($insertQuery->execute()) {
+                echo "New Inventory record created successfully";
+            } else {
+                echo "Error: " . $insertQuery->error;
+            }
+
+            $insertQuery->close();
         }
-        echo "</tr>";
     }
 
-    echo "</table>";
-} else {
-    echo "Table is empty.";
-}
+    // Fetch Inventory table data
+    $sqlFetchData = "SELECT * FROM Inventory";
+    $result = $conn->query($sqlFetchData);
 
+    // Display table data
+    if ($result === FALSE) {
+        echo "Error fetching data: " . $conn->error;
+    } else {
+        if ($result->num_rows > 0) {
+            echo "<table>";
+
+            // Display table rows
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                foreach ($row as $columnName => $value) {
+                    echo "<td>" . htmlspecialchars($value) . "</td>"; // Sanitize data for HTML output
+                }
+                echo "</tr>";
+            }
+
+            echo "</table>";
+        } else {
+            echo "Table is empty.";
+        }
+    }
+
+    $conn->close();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 ?>

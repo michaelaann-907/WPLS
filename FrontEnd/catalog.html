@@ -89,11 +89,6 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="inStock">In Stock:</label>
-                <input type="text" id="inStock" name="inStock" required min="0">
-            </div>
-
-            <div class="form-group">
                 <button type="button" id="generateLabelBtn">Generate Label</button>
             </div>
 
@@ -115,32 +110,16 @@
                 <th>Library of Congress Code</th>
                 <th>Shelf Location Code</th>
                 <th>Cost</th>
-                <th>ItemType</th>
+                <th>Late Fee</th>
+                <th>Item Type</th>
+                <th>Duration (in days)</th>
                 <th>Branch</th>
-                <th>Copies</th>
                 <th>In Stock</th>
-                <th>Action</th> <!-- Added table header for Action - such as delete button-->
+                <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="inventoryTableBody">
             <!-- Inventory items will be displayed here -->
-            <tr>
-                <td class="item-id">1</td>
-                <td>Title 1</td>
-                <td>Author 1</td>
-                <td>Year 1</td>
-                <td>LOC Code 1</td>
-                <td>Shelf Code 1</td>
-                <td>10.00</td>
-                <td>Book</td>
-                <td>Branch 1</td>
-                <td>In Stock</td>
-
-                <td>
-                    <button class="delete-button" data-id="ITEM_ID">Delete</button>
-                </td>
-            </tr>
-            <!-- More rows can be added here -->
             </tbody>
         </table>
     </div>
@@ -150,33 +129,7 @@
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
 
-<script>
-    // Validate the year on form submission
-    document.getElementById('addSubmitBtn').addEventListener('click', function (event) {
-        const year = document.getElementById('year').value;
-        if (!isValidYear(year)) {
-            event.preventDefault();
-            alert('Please enter a valid year (YYYY).');
-        }
-    });
 
-    // Function to check if the input is a valid year (YYYY)
-    function isValidYear(year) {
-        return /^\d{4}$/.test(year);
-    }
-
-     // Update duration field based on selected item type
-     document.getElementById('itemType').addEventListener('change', function () {
-        const itemType = this.value;
-        const durationField = document.getElementById('duration');
-
-        if (itemType === 'Book') {
-            durationField.value = 2;
-        } else if (itemType === 'DVD') {
-            durationField.value = 3;
-        }
-    });
-</script>
 
 </body>
 </html>
