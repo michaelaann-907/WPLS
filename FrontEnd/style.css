@@ -190,20 +190,17 @@ button.update-button:hover {
 
 
 
-/* notification style */
-#notification {
+/* Add these styles at the beginning of your style.css file */
+.notification {
     position: fixed;
-    top: 10px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: #4CAF50;
+    transform: translate(-50%, -50%);
+    background-color: teal;
     color: white;
-    padding: 15px;
+    padding: 10px;
     border-radius: 5px;
-    text-align: center;
-    display: none;
-}
-
-.hidden {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
     display: none;
 }

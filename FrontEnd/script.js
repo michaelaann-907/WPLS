@@ -19,29 +19,6 @@ function fetchTableData() {
         }
     });
 }
-// Add click event handler for delete buttons using event delegation
-$(document).on("click", ".delete-button", function() {
-    var $button = $(this); // Store the reference to $(this)
-
-    var itemIdToDelete = $button.attr("data-id");
-    console.log("Deleting item with ID:", itemIdToDelete);
-
-    // Perform AJAX request to delete the item with itemIdToDelete
-    $.ajax({
-        url: 'delete_item.php',
-        type: 'POST',
-        data: { itemId: itemIdToDelete },
-        success: function () {
-            console.log("Item deleted successfully.");
-            // Remove the corresponding row from the table
-            $button.closest("tr").remove();
-        },
-        error: function (xhr, status, error) {
-            console.error('Failed to delete item with ID:', itemIdToDelete, 'Status:', status, 'Error:', error);
-        }
-    });
-});
-
 
 
 
@@ -277,6 +254,74 @@ $(document).ready(function () {
             }
         });
     });
+
+// Add an event listener for the "Delete" button in the table
+    $(document).on('click', '.delete-button', function () {
+        var itemIdToDelete = $(this).data("id");
+
+        $.ajax({
+            url: 'delete_item.php',
+            type: 'POST',
+            data: { itemId: itemIdToDelete },
+            success: function (data) {
+                if (data === 'deleted') {
+                    // If the item is deleted from the database, remove it from the table
+                    var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.inStock");
+
+                    if (inStockCell.length > 0) {
+                        var currentInStock = parseInt(inStockCell.text());
+
+                        // Check if inStock is 1
+                        if (currentInStock === 1) {
+                            // Prompt the user with a confirmation dialog
+                            var confirmDelete = confirm('This is the last copy. Do you want to delete it from the database as well?');
+
+                            if (confirmDelete) {
+                                // User clicked "Yes," proceed with both database deletion and table removal
+                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                                alert('Item deleted from the database and removed from the table.');
+                            } else {
+                                // User clicked "No," only remove from the table
+                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                                alert('Item removed from the table.');
+                            }
+                        } else {
+                            // If inStock is not 1, remove only from the table
+                            $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                            alert('Item removed from the table.');
+                        }
+                    } else {
+                        console.error('Could not find the In Stock cell for item with ID:', itemIdToDelete);
+                    }
+                } else if (data === 'updated') {
+                    // If the item is updated in the database, update the inStock value in the table
+                    var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.inStock");
+                    var titleCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.title");
+
+                    if (inStockCell.length > 0 && titleCell.length > 0) {
+                        // Get the current In Stock value and decrement by 1
+                        var currentInStock = parseInt(inStockCell.text());
+                        inStockCell.text(currentInStock - 1);
+
+                        // Show a notification with the removed book's title
+                        var removedTitle = titleCell.text();
+                        showNotification('1 copy of "' + removedTitle + '" has been removed.');
+                    } else {
+                        console.error('Could not find the In Stock or Title cell for item with ID:', itemIdToDelete);
+                        console.log('Row HTML:', $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").html());
+                    }
+                } else {
+                    console.error('Failed to delete or update item with ID: ' + itemIdToDelete);
+                }
+            },
+            error: function () {
+                console.error('Failed to delete or update item with ID: ' + itemIdToDelete);
+            }
+        });
+    });
+
+
+
 
 
     // Flag to track whether form submission is in progress
