@@ -155,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 $(document).ready(function () {
     /* ----------------------- catalog.html ----------------------- */
 
@@ -208,27 +207,22 @@ $(document).ready(function () {
         addItemForm.css("display", "none");
     });
 
-
-
-
-
-
-// Function to show a notification
+    // Function to show a notification
     function showNotification(message) {
         alert(message);
     }
 
-
-// Add an event listener for the "Add 1" button in the table
+    // Add an event listener for the "Add 1" button in the table
     $(document).on('click', '.add-button', function () {
         var itemIdToAdd = $(this).data("id");
 
+        // AJAX request to increment the in-stock value for an item
         $.ajax({
             url: 'add_one.php',
             type: 'POST',
-            data: { itemId: itemIdToAdd },
+            data: {itemId: itemIdToAdd},
             success: function () {
-                // Find the element containing the "In Stock" value for the specific row
+                // Update the in-stock value in the table and show a notification
                 var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToAdd + "'] td.inStock");
                 var titleCell = $("#inventoryTableBody tr[data-id='" + itemIdToAdd + "'] td.title");
 
@@ -255,15 +249,17 @@ $(document).ready(function () {
         });
     });
 
-// Add an event listener for the "Delete" button in the table
+    // Add an event listener for the "Delete" button in the table
     $(document).on('click', '.delete-button', function () {
         var itemIdToDelete = $(this).data("id");
 
+        // AJAX request to delete or update an item
         $.ajax({
             url: 'delete_item.php',
             type: 'POST',
-            data: { itemId: itemIdToDelete },
+            data: {itemId: itemIdToDelete},
             success: function (data) {
+                // Handle the response and update the table accordingly
                 if (data === 'deleted') {
                     // If the item is deleted from the database, remove it from the table
                     var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.inStock");
@@ -320,10 +316,6 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-
     // Flag to track whether form submission is in progress
     var isFormSubmitting = false;
 
@@ -349,14 +341,23 @@ $(document).ready(function () {
                 url: 'inventory.php',
                 type: 'POST',
                 data: $(this).serialize(),
-                success: function () {
-                    loadInventoryData(); // Update the displayed inventory data
-                    fetchInventoryTableData(); // Update the displayed inventory table data
-                    $('#addItemFormContainer').css("display", "none");
-                    $('#addItemFormContainer form')[0].reset();
+                success: function (data) {
+                    // Check the response from the server
+                    if (data.includes('success')) {
+                        // If the response contains 'success', the item was added successfully
+                        showNotification('Item added successfully.');
+                        fetchInventoryTableData(); // Update the displayed inventory table data
+                        $('#addItemFormContainer').css("display", "none");
+                        $('#addItemFormContainer form')[0].reset();
+                    } else {
+                        // If the response does not contain 'success', there was an error
+                        console.error('Failed to add an item. Server response:', data);
+                        showNotification('Failed to add an item. Please try again.');
+                    }
                 },
                 error: function () {
                     console.error('Failed to add an item.');
+                    showNotification('Failed to add an item. Please try again.');
                 },
                 complete: function () {
                     // Reset the flag after the form submission is complete
@@ -364,68 +365,69 @@ $(document).ready(function () {
                 }
             });
         });
-    });
 
-    // Add an event listener to the search input for real-time search
-    $("#searchInput").on('input', function () {
-        performSearch();
-    });
-
-    // Add an event listener for the search button
-    $("#searchBtn").click(function (event) {
-        event.preventDefault(); // Prevent the form from submitting (if it's inside a form)
-        performSearch();
-    });
-
-    // Function to perform the search and update the table
-    function performSearch() {
-        var searchInput = $("#searchInput").val();
-        var searchCriteria = $("#searchCriteria").val();
-
-        // Perform AJAX request to fetch filtered data
-        $.ajax({
-            url: 'fetch_inventory_data.php',
-            type: 'GET',
-            data: { searchInput: searchInput, searchCriteria: searchCriteria },
-            dataType: 'html',
-            success: function (data) {
-                $('#inventoryTable tbody').html(data);
-            },
-            error: function () {
-                console.error('Failed to fetch filtered inventory data.');
-            }
+        // Add an event listener to the search input for real-time search
+        $("#searchInput").on('input', function () {
+            performSearch();
         });
-    }
 
-    // Set the default duration to 14
-    $('#duration').val(14);
+        // Add an event listener for the search button
+        $("#searchBtn").click(function (event) {
+            event.preventDefault(); // Prevent the form from submitting (if it's inside a form)
+            performSearch();
+        });
 
-    // Add an event listener to the itemType dropdown for real-time duration calculation
-    $('#itemType').off('change').on('change', function () {
-        // Get the selected item type
-        var itemType = $(this).val();
+        // Function to perform the search and update the table
+        function performSearch() {
+            var searchInput = $("#searchInput").val();
+            var searchCriteria = $("#searchCriteria").val();
 
-        // Set the duration based on the selected item type
-        var duration = (itemType === 'Book') ? 14 : ((itemType === 'DVD') ? 3 : 0);
+            // Perform AJAX request to fetch filtered data
+            $.ajax({
+                url: 'fetch_inventory_data.php',
+                type: 'GET',
+                data: {searchInput: searchInput, searchCriteria: searchCriteria},
+                dataType: 'html',
+                success: function (data) {
+                    $('#inventoryTable tbody').html(data);
+                },
+                error: function () {
+                    console.error('Failed to fetch filtered inventory data.');
+                }
+            });
+        }
 
-        // If the duration is not set based on item type, keep the default value (14)
-        duration = duration || 14;
+        // Set the default duration to 14
+        $('#duration').val(14);
 
-        // Set the calculated duration in the duration input field
-        $('#duration').val(duration);
+        // Add an event listener to the itemType dropdown for real-time duration calculation
+        $('#itemType').off('change').on('change', function () {
+            // Get the selected item type
+            var itemType = $(this).val();
+
+            // Set the duration based on the selected item type
+            var duration = (itemType === 'Book') ? 14 : ((itemType === 'DVD') ? 3 : 0);
+
+            // If the duration is not set based on item type, keep the default value (14)
+            duration = duration || 14;
+
+            // Set the calculated duration in the duration input field
+            $('#duration').val(duration);
+        });
+
+        // Add an event listener to the cost input for real-time late fee calculation
+        $('#cost').off('input').on('input', function () {
+            // Get the cost entered by the user
+            var cost = parseFloat($(this).val());
+
+            // Calculate 10% of the cost as late fee
+            var lateFee = 0.1 * cost;
+
+            // Set the calculated late fee in the lateFee input field
+            $('#lateFee').val(lateFee.toFixed(2));
+        });
     });
 
-    // Add an event listener to the cost input for real-time late fee calculation
-    $('#cost').off('input').on('input', function () {
-        // Get the cost entered by the user
-        var cost = parseFloat($(this).val());
-
-        // Calculate 10% of the cost as late fee
-        var lateFee = 0.1 * cost;
-
-        // Set the calculated late fee in the lateFee input field
-        $('#lateFee').val(lateFee.toFixed(2));
-    });
 
     /* ----------------------- checkout.html ----------------------- */
 

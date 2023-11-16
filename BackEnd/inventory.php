@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 try {
-    // Your existing database connection code
 
     // Ensure the Inventory table exists, if not, create it
     $sqlCreateTable = "CREATE TABLE IF NOT EXISTS Inventory (
@@ -34,7 +33,7 @@ try {
         // Sanitize and validate the input data
         $title = mysqli_real_escape_string($conn, $_POST['title']);
         $author = mysqli_real_escape_string($conn, $_POST['author']);
-        $year = (int)$_POST['year']; //converted to integer w/ 4 digits
+        $year = (int)$_POST['year']; // converted to integer with 4 digits
         $libraryOfCongressCode = mysqli_real_escape_string($conn, $_POST['locCode']);
         $shelfLocationCode = mysqli_real_escape_string($conn, $_POST['shelfCode']);
         $cost = mysqli_real_escape_string($conn, $_POST['cost']);
@@ -42,24 +41,29 @@ try {
         $itemType = mysqli_real_escape_string($conn, $_POST['itemType']);
         $duration = mysqli_real_escape_string($conn, $_POST['duration']);
         $branch = mysqli_real_escape_string($conn, $_POST['branch']);
+        $inStock = (int)$_POST['inStock'];
+
 
         // Basic form validation
         if (empty($title) || empty($author) || empty($year) || empty($libraryOfCongressCode) || empty($shelfLocationCode) || empty($cost) || empty($lateFee) || empty($itemType) || empty($duration) || empty($branch)) {
             echo "All fields are required.";
         } else {
-            // Use prepared statement to insert data
+        // Use prepared statement to insert data
             $insertQuery = $conn->prepare("INSERT INTO Inventory (title, author, year, libraryOfCongressCode, shelfLocationCode, cost, lateFee, itemType, duration, branch, inStock)
-                                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $insertQuery->bind_param("ssssssssss", $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch);
+            $insertQuery->bind_param("ssssssssssi", $title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch, $inStock);
+
+
+            // Debug information
+            echo "Debug Info:";
+            var_dump($title, $author, $year, $libraryOfCongressCode, $shelfLocationCode, $cost, $lateFee, $itemType, $duration, $branch, $inStock);
 
             if ($insertQuery->execute()) {
                 echo "New Inventory record created successfully";
             } else {
                 echo "Error: " . $insertQuery->error;
             }
-
-            $insertQuery->close();
         }
     }
 
@@ -87,7 +91,6 @@ try {
 
                 echo "</tr>";
             }
-
 
             echo "</table>";
         } else {
