@@ -364,6 +364,64 @@ $(document).ready(function() {
     });
 
 
+    // Add an event listener for the search button
+    $("#searchBtn").click(function () {
+        var searchInput = $("#searchInput").val();
+        var searchCriteria = $("#searchCriteria").val();
+
+        // Perform AJAX request to fetch filtered data
+        $.ajax({
+            url: 'fetch_inventory_data.php',
+            type: 'GET',
+            data: { searchInput: searchInput, searchCriteria: searchCriteria },
+            dataType: 'html',
+            success: function (data) {
+                $('#inventoryTable tbody').html(data);
+            },
+            error: function () {
+                console.error('Failed to fetch filtered inventory data.');
+            }
+        });
+    });
+
+
+// ...
+
+// Add an event listener to the cost input for real-time late fee calculation
+    $('#cost').on('input', function () {
+        // Get the cost entered by the user
+        var cost = parseFloat($(this).val());
+
+        // Calculate 10% of the cost as late fee
+        var lateFee = 0.1 * cost;
+
+        // Set the calculated late fee in the lateFee input field
+        $('#lateFee').val(lateFee.toFixed(2));
+    });
+
+// Handle form submission using AJAX
+    $('#addSubmitBtn').click(function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Continue with form submission
+        $.ajax({
+            url: 'inventory.php',
+            type: 'POST',
+            data: $('#addItemFormContainer form').serialize(),
+            success: function () {
+                loadInventoryData(); // Update the displayed inventory data
+                fetchInventoryTableData(); // Update the displayed inventory table data
+                $('#addItemFormContainer').css("display", "none");
+                $('#addItemFormContainer form')[0].reset();
+            },
+            error: function () {
+                console.error('Failed to add an item.');
+            }
+        });
+    });
+// ...
+
+
 
 
 
