@@ -249,6 +249,55 @@ $(document).ready(function () {
         });
     });
 
+    $(document).ready(function () {
+        // Function to generate and display the label
+        function generateLabel() {
+            // Get form data
+            var title = $("#title").val();
+            var author = $("#author").val();
+            var year = $("#year").val();
+            var locCode = $("#locCode").val();
+            var shelfCode = $("#shelfCode").val();
+            var cost = $("#cost").val();
+            var itemType = $("#itemType").val();
+            var branch = $("#branch").val();
+
+            // Create label content
+            var labelContent = "Title: " + title + "<br>" +
+                "Author: " + author + "<br>" +
+                "Year: " + year + "<br>" +
+                "Library of Congress Code: " + locCode + "<br>" +
+                "Shelf Location Code: " + shelfCode + "<br>" +
+                "Cost: " + cost + "<br>" +
+                "Item Type: " + itemType + "<br>" +
+                "Branch: " + branch;
+
+            // Open a small popup window with the label content
+            var labelWindow = window.open('', '_blank', 'width=300,height=400,scrollbars=yes,resizable=yes');
+            labelWindow.document.write('<html><head><title>Label</title></head><body>' + labelContent +
+                '<br><button id="printBtn">Print</button>' +
+                '<button id="closeBtn">Close</button>' +
+                '</body></html>');
+            labelWindow.document.close();
+
+            // Attach click event to the Print button in the popup window
+            labelWindow.document.getElementById('printBtn').addEventListener('click', function () {
+                labelWindow.print();
+            });
+
+            // Attach click event to the Close button in the popup window
+            labelWindow.document.getElementById('closeBtn').addEventListener('click', function () {
+                labelWindow.close();
+            });
+        }
+
+        // Event listener for the Generate Label button
+        $("#generateLabelBtn").click(function () {
+            generateLabel();
+        });
+    });
+
+
     // Add an event listener for the "Delete" button in the table
     $(document).on('click', '.delete-button', function () {
         var itemIdToDelete = $(this).data("id");
