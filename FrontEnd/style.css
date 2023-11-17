@@ -67,19 +67,19 @@ nav a {
 nav a:hover {
     color: teal;
 }
-
 /*
    Main Content Styles
    Page: All
 */
 main {
-    max-width: 800px;
+    max-width: 1200px; /* Increase the max-width for a larger container */
     margin: 20px auto;
     padding: 20px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide any overflow content */
 }
 
 /*
@@ -126,7 +126,7 @@ footer.site-footer {
 }
 
 /*
-   Table Styles
+   Table Container Styles
    Page: Catalog Page
 */
 #inventoryTableContainer {
@@ -135,9 +135,14 @@ footer.site-footer {
     margin-top: 20px;
 }
 
+/*
+   Table Styles
+   Page: Catalog Page
+*/
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px; /* Add margin for spacing between the table and other elements */
 }
 
 th, td {
@@ -184,7 +189,3 @@ button.update-button:hover {
     background-color: gold;
     color: teal;
 }
-
-
-
-
