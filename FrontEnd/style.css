@@ -116,14 +116,13 @@ main {
    Page: All
 */
 footer.site-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
     background-color: teal;
     color: white;
     text-align: center;
     padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 /*
@@ -189,18 +188,3 @@ button.update-button:hover {
 
 
 
-
-/* Add these styles at the beginning of your style.css file */
-.notification {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: teal;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    display: none;
-}
