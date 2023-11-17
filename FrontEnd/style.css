@@ -112,6 +112,16 @@ main {
 }
 
 /*
+   Table Container Styles
+   Page: Catalog Page
+*/
+#inventoryTableContainer {
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add margin to the bottom */
+    overflow: hidden; /* Hide horizontal overflow */
+}
+
+/*
    Footer Styles
    Page: All
 */
@@ -123,16 +133,7 @@ footer.site-footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-
-/*
-   Table Container Styles
-   Page: Catalog Page
-*/
-#inventoryTableContainer {
-    max-width: 100%;
-    overflow-x: auto;
-    margin-top: 20px;
+    margin-top: 20px; /* Add margin to the top */
 }
 
 /*
