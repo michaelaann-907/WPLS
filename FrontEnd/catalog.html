@@ -8,6 +8,45 @@
     <script src="script.js"></script>
     <title>Wayback Public Library - Catalog</title>
 
+    <!-- script below is for the 'year' field and shows message 'only accepts numeric values' when
+    letters are entered. -->
+    <script>
+        $(document).ready(function() {
+            // Hide the error message initially
+            $('#numericErrorMessageYear').hide();
+
+            $('#year').on('input', function() {
+                // Remove non-numeric characters
+                var numericValue = $(this).val().replace(/[^0-9]/g, '');
+
+                // Display or hide the message based on non-numeric input
+                var errorMessage = $('#numericErrorMessageYear');
+                if ($(this).val() !== numericValue) {
+                    errorMessage.text('Only numeric values are allowed.');
+                    errorMessage.addClass('error-message');
+                    errorMessage.show();
+                } else {
+                    errorMessage.text('');
+                    errorMessage.removeClass('error-message');
+                    errorMessage.hide();
+                }
+
+                $(this).val(numericValue);
+            });
+        });
+    </script>
+
+    <style>
+        .error-message {
+            background-color: #ffe5e5; /* Light red background color */
+            color: #000; /* Black text color */
+            padding: 5px;
+            border: 1px solid #ff6666; /* Border color */
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+    </style>
+
 </head>
 <body>
 <div id="notification" class="hidden"></div>
@@ -59,7 +98,8 @@
             </div>
             <div class="form-group">
                 <label for="year">Year:</label>
-                <input type="year" id="year" name="year" required pattern="\d{4}" title="Please enter a valid 4-digit year">
+                <input type="text" id="year" name="year" required pattern="[0-9]{4}" maxlength="4" title="Please enter a valid 4-digit year (numeric only)" inputmode="numeric">
+                <div id="numericErrorMessageYear" class="error-message" style="color: red;"></div>
             </div>
             <div class="form-group">
                 <label for="locCode">Library of Congress Code:</label>
@@ -146,3 +186,4 @@
 
 </body>
 </html>
+

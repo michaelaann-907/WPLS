@@ -179,18 +179,8 @@ $(document).ready(function () {
         $("#inStock").val(1);
     }
 
-    // Function to add event listeners after content is loaded
-    function addEventListenersToPopup() {
-        // Print Label Button Click Event in the popup
-        labelPopup.document.getElementById("printLabelBtn").addEventListener("click", function () {
-            labelPopup.print(); // Print the label in the popup window
-        });
 
-        // Exit Label Button Click Event in the popup
-        labelPopup.document.getElementById("exitLabelBtn").addEventListener("click", function () {
-            labelPopup.close(); // Close the popup window
-        });
-    }
+
 
     // Add an event listener to the "Add Item" button
     $("#addItemBtn").click(function () {
