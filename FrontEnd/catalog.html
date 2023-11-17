@@ -34,6 +34,17 @@
                 $(this).val(numericValue);
             });
         });
+
+        // for library of congress code
+            $(document).ready(function() {
+            $('#locCode').on('input', function() {
+                // Limit to 12 characters
+                if ($(this).val().length > 12) {
+                    $(this).val($(this).val().slice(0, 12));
+                }
+            });
+        });
+
     </script>
 
     <style>
@@ -103,7 +114,7 @@
             </div>
             <div class="form-group">
                 <label for="locCode">Library of Congress Code:</label>
-                <input type="text" id="locCode" name="locCode" required>
+                <input type="text" id="locCode" name="locCode" maxlength="12">
             </div>
             <div class="form-group">
                 <label for="shelfCode">Shelf Location Code:</label>
