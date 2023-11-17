@@ -9,7 +9,7 @@ try {
 
     // Ensure the Inventory table exists, if not, create it
     $sqlCreateTable = "CREATE TABLE IF NOT EXISTS Inventory (
-        itemID INT PRIMARY KEY,
+        itemID INT UNIQUE PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         author VARCHAR(255) NOT NULL,
         year INT(4) NOT NULL,
