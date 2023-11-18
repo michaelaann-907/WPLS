@@ -21,7 +21,6 @@ function fetchTableData() {
 }
 
 
-
 // * Patron Form Submission *
 // Wait for the document to be fully loaded
 $(document).ready(function() {
@@ -46,9 +45,14 @@ $(document).ready(function() {
             url: 'process_patron_form.php',
             type: 'POST',
             data: $('#patronForm').serialize(), // Serialize the form data
-            success: function() {
-                fetchTableData(); // Update the displayed PatronAccount table data
-                $('#patronForm')[0].reset(); // Clear the form fields
+            success: function(data) {
+                // Update the displayed PatronAccount table data
+                fetchTableData();
+                // Clear the form fields
+                $('#patronForm')[0].reset();
+
+                // Display success message
+                alert('Patron added successfully!');
             },
             error: function() {
                 console.error('Failed to add a patron.');
