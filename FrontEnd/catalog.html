@@ -8,8 +8,59 @@
     <script src="script.js"></script>
     <title>Wayback Public Library - Catalog</title>
 
+    <!-- script below is for the 'year' field and shows message 'only accepts numeric values' when
+    letters are entered. -->
+    <script>
+        $(document).ready(function() {
+            // Hide the error message initially
+            $('#numericErrorMessageYear').hide();
+
+            $('#year').on('input', function() {
+                // Remove non-numeric characters
+                var numericValue = $(this).val().replace(/[^0-9]/g, '');
+
+                // Display or hide the message based on non-numeric input
+                var errorMessage = $('#numericErrorMessageYear');
+                if ($(this).val() !== numericValue) {
+                    errorMessage.text('Only numeric values are allowed.');
+                    errorMessage.addClass('error-message');
+                    errorMessage.show();
+                } else {
+                    errorMessage.text('');
+                    errorMessage.removeClass('error-message');
+                    errorMessage.hide();
+                }
+
+                $(this).val(numericValue);
+            });
+        });
+
+        // for library of congress code
+            $(document).ready(function() {
+            $('#locCode').on('input', function() {
+                // Limit to 12 characters
+                if ($(this).val().length > 12) {
+                    $(this).val($(this).val().slice(0, 12));
+                }
+            });
+        });
+
+    </script>
+
+    <style>
+        .error-message {
+            background-color: #ffe5e5; /* Light red background color */
+            color: #000; /* Black text color */
+            padding: 5px;
+            border: 1px solid #ff6666; /* Border color */
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+    </style>
+
 </head>
 <body>
+<div id="notification" class="hidden"></div>
 <header>
     <h1>Welcome to Wayback Public Library</h1>
     <p>Your Gateway to Knowledge</p>
@@ -27,8 +78,17 @@
 
     <!-- Search Bar -->
     <input type="text" id="searchInput" placeholder="Search items in the catalog">
+    <!-- Search Criteria Dropdown -->
+    <select id="searchCriteria">
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="itemID">Item ID</option>
+        <option value="itemType">Item Type</option>
+        <option value="branch">Branch</option>
+    </select>
     <!-- Search Button -->
     <button id="searchBtn">Search</button>
+
 
     <!-- Add Item Button (Open Dropdown Form) -->
     <button id="addItemBtn">Add Item</button>
@@ -50,11 +110,12 @@
             </div>
             <div class="form-group">
                 <label for="year">Year:</label>
-                <input type="text" id="year" name="year" required pattern="\d{4}" title="Please enter a valid year (YYYY)">
+                <input type="text" id="year" name="year" required pattern="[0-9]{4}" maxlength="4" title="Please enter a valid 4-digit year (numeric only)" inputmode="numeric">
+                <div id="numericErrorMessageYear" class="error-message" style="color: red;"></div>
             </div>
             <div class="form-group">
                 <label for="locCode">Library of Congress Code:</label>
-                <input type="text" id="locCode" name="locCode" required>
+                <input type="text" id="locCode" name="locCode" maxlength="12">
             </div>
             <div class="form-group">
                 <label for="shelfCode">Shelf Location Code:</label>
@@ -78,21 +139,20 @@
     
             <div class="form-group">
                 <label for="duration">Duration (days):</label>
-                <input type="number" id="duration" name="duration" required min="1" value="2">
+                <input type="number" id="duration" name="duration" required value="14">
             </div>    
             <div class="form-group">
                 <label for="branch">Branch:</label>
-                <input type="text" id="branch" name="branch" required>
-            </div>
-            <div class="form-group">
-                <label for="copies">Copies:</label>
-                <input type="text" id="copies" name="copies" required min="0">
+                <select id="branch" name="branch" required>
+                    <option value="Main">Main</option>
+                    <option value="Pine Valley">Pine Valley</option>
+                    <option value="North East">North East</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="inStock">In Stock:</label>
-                <input type="text" id="inStock" name="inStock" required min="0">
+                <input type="number" id="inStock" name="inStock" required>
             </div>
-
             <div class="form-group">
                 <button type="button" id="generateLabelBtn">Generate Label</button>
             </div>
@@ -115,69 +175,24 @@
                 <th>Library of Congress Code</th>
                 <th>Shelf Location Code</th>
                 <th>Cost</th>
-                <th>ItemType</th>
+                <th>Late Fee</th>
+                <th>Item Type</th>
+                <th>Duration (in days)</th>
                 <th>Branch</th>
-                <th>Copies</th>
                 <th>In Stock</th>
-                <th>Action</th> <!-- Added table header for Action - such as delete button-->
+                <th colspan="2" style="text-align: center;">Actions</th> <!-- Update this line -->
             </tr>
             </thead>
-            <tbody>
+            <tbody id="inventoryTableBody">
             <!-- Inventory items will be displayed here -->
-            <tr>
-                <td class="item-id">1</td>
-                <td>Title 1</td>
-                <td>Author 1</td>
-                <td>Year 1</td>
-                <td>LOC Code 1</td>
-                <td>Shelf Code 1</td>
-                <td>10.00</td>
-                <td>Book</td>
-                <td>Branch 1</td>
-                <td>Copies</td>
-                <td>In Stock</td>
-
-                <td>
-                    <button class="delete-button" data-id="ITEM_ID">Delete</button>
-                </td>
-            </tr>
-            <!-- More rows can be added here -->
             </tbody>
         </table>
     </div>
 
 </main>
-<footer>
+<footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
-
-<script>
-    // Validate the year on form submission
-    document.getElementById('addSubmitBtn').addEventListener('click', function (event) {
-        const year = document.getElementById('year').value;
-        if (!isValidYear(year)) {
-            event.preventDefault();
-            alert('Please enter a valid year (YYYY).');
-        }
-    });
-
-    // Function to check if the input is a valid year (YYYY)
-    function isValidYear(year) {
-        return /^\d{4}$/.test(year);
-    }
-
-     // Update duration field based on selected item type
-     document.getElementById('itemType').addEventListener('change', function () {
-        const itemType = this.value;
-        const durationField = document.getElementById('duration');
-
-        if (itemType === 'Book') {
-            durationField.value = 2;
-        } else if (itemType === 'DVD') {
-            durationField.value = 3;
-        }
-    });
-</script>
-
 </body>
 </html>
+

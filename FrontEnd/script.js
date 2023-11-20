@@ -1,23 +1,27 @@
-/* -------------- Global Functions -------------- */
 
+
+
+/* -----------------------Add Page Name----------------------- */
+
+/* ---------------------- index.html  ----------------------- */
 // Function to fetch and display PatronAccount table data
-// Page: All pages using PatronAccount table
+// All pages using PatronAccount table
 function fetchTableData() {
     $.ajax({
         url: 'fetch_patron_data.php',
         type: 'GET',
         dataType: 'html',
-        success: function(data) {
+        success: function (data) {
             $('#tableData').html(data); // Display PatronAccount table data
         },
-        error: function() {
+        error: function () {
             console.error('Failed to fetch PatronAccount data.');
         }
     });
 }
 
-/* -------------- Patron Form Submission -------------- */
 
+// * Patron Form Submission *
 // Wait for the document to be fully loaded
 $(document).ready(function() {
 
@@ -41,9 +45,14 @@ $(document).ready(function() {
             url: 'process_patron_form.php',
             type: 'POST',
             data: $('#patronForm').serialize(), // Serialize the form data
-            success: function() {
-                fetchTableData(); // Update the displayed PatronAccount table data
-                $('#patronForm')[0].reset(); // Clear the form fields
+            success: function(data) {
+                // Update the displayed PatronAccount table data
+                fetchTableData();
+                // Clear the form fields
+                $('#patronForm')[0].reset();
+
+                // Display success message
+                alert('Patron added successfully!');
             },
             error: function() {
                 console.error('Failed to add a patron.');
@@ -142,99 +151,330 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-/* -------------- Catalog Page Specific JavaScript -------------- */
 
-// Wait for the document to be fully loaded
-document.addEventListener("DOMContentLoaded", function() {
-    // Page: catalog.html
+
+
+
+
+
+
+
+$(document).ready(function () {
+    /* ----------------------- catalog.html ----------------------- */
+
+    // Function to fetch and display Inventory table data
+    function fetchInventoryTableData() {
+        $.ajax({
+            url: 'inventory.php',
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                $('#inventoryTable tbody').html(data);
+            },
+            error: function () {
+                console.error('Failed to fetch Inventory table data.');
+            }
+        });
+    }
+
+    // Function to automatically insert 1 into the In Stock input field in the form
+    function setDefaultInStockValue() {
+        // Assuming you have an input field with id "inStock" in your form
+        $("#inStock").val(1);
+    }
+
+
+
+
     // Add an event listener to the "Add Item" button
-    document.getElementById("addItemBtn").addEventListener("click", function() {
-        var addItemForm = document.getElementById("addItemFormContainer");
-        addItemForm.style.display = "block";
+    $("#addItemBtn").click(function () {
+        var addItemForm = $("#addItemFormContainer");
+        addItemForm.css("display", "block");
+
+        // Call the function to set the default In Stock value
+        setDefaultInStockValue();
     });
 
     // Add an event listener to the "Close" button
-    document.getElementById("closeFormBtn").addEventListener("click", function() {
-        var addItemForm = document.getElementById("addItemFormContainer");
-        addItemForm.style.display = "none";
+    $("#closeFormBtn").click(function () {
+        var addItemForm = $("#addItemFormContainer");
+        addItemForm.css("display", "none");
     });
 
-    // Generate Label Button Click Event
-    document.getElementById("generateLabelBtn").addEventListener("click", function() {
-        // Get the form input values
-        var title = document.getElementById("title").value;
-        var author = document.getElementById("author").value;
-        var year = document.getElementById("year").value;
-        var locCode = document.getElementById("locCode").value;
-        var shelfCode = document.getElementById("shelfCode").value;
-        var cost = document.getElementById("cost").value;
-        var itemType = document.getElementById("itemType").value;
-        var branch = document.getElementById("branch").value;
+    // Function to show a notification
+    function showNotification(message) {
+        alert(message);
+    }
 
-        // Generate the label content
-        var labelContent = `
-            <h3>Library Label</h3>
-            <p><strong>Title:</strong> ${title}</p>
-            <p><strong>Author:</strong> ${author}</p>
-            <p><strong>Year:</strong> ${year}</p>
-            <p><strong>Library of Congress Code:</strong> ${locCode}</p>
-            <p><strong>Shelf Location Code:</strong> ${shelfCode}</p>
-            <p><strong>Cost:</strong> ${cost}</p>
-            <p><strong>Item Type:</strong> ${itemType}</p>
-            <p><strong>Branch:</strong> ${branch}</p>
-        `;
+    // Add an event listener for the "Add 1" button in the table
+    $(document).on('click', '.add-button', function () {
+        var itemIdToAdd = $(this).data("id");
 
-        // Create a new popup window for the label
-        var labelPopup = window.open("", "Label Popup", "width=600, height=400");
+        // AJAX request to increment the in-stock value for an item
+        $.ajax({
+            url: 'add_one.php',
+            type: 'POST',
+            data: {itemId: itemIdToAdd},
+            success: function () {
+                // Update the in-stock value in the table and show a notification
+                var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToAdd + "'] td.inStock");
+                var titleCell = $("#inventoryTableBody tr[data-id='" + itemIdToAdd + "'] td.title");
 
-        // Populate the popup window with the label content
-        labelPopup.document.open();
-        labelPopup.document.write(`
-            <html>
-            <head>
-                <title>Library Label</title>
-            </head>
-            <body>
-                <button id="printLabelBtn">Print</button>
-                <button id="exitLabelBtn">Exit</button>
-                ${labelContent}
-            </body>
-            </html>
-        `);
-        labelPopup.document.close();
+                if (inStockCell.length > 0 && titleCell.length > 0) {
+                    // Get the current In Stock value and increment by 1
+                    var currentInStock = parseInt(inStockCell.text());
+                    inStockCell.text(currentInStock + 1);
 
-        // Print Label Button Click Event in the popup
-        labelPopup.document.getElementById("printLabelBtn").addEventListener("click", function() {
-            labelPopup.print(); // Print the label in the popup window
-        });
-
-        // Exit Label Button Click Event in the popup
-        labelPopup.document.getElementById("exitLabelBtn").addEventListener("click", function() {
-            labelPopup.close(); // Close the popup window
+                    // Show a notification with the added book's title
+                    var addedTitle = titleCell.text();
+                    showNotification('Another copy of "' + addedTitle + '" has been added.');
+                } else {
+                    console.error('Could not find the In Stock or Title cell for item with ID:', itemIdToAdd);
+                    console.log('Row HTML:', $("#inventoryTableBody tr[data-id='" + itemIdToAdd + "']").html());
+                }
+            },
+            error: function () {
+                console.error('Failed to add a book to item with ID: ' + itemIdToAdd);
+            },
+            complete: function () {
+                // Fetch and display updated inventory table data
+                fetchInventoryTableData();
+            }
         });
     });
-});
 
+    $(document).ready(function () {
+        // Function to generate and display the label
+        function generateLabel() {
+            // Get form data
+            var title = $("#title").val();
+            var author = $("#author").val();
+            var year = $("#year").val();
+            var locCode = $("#locCode").val();
+            var shelfCode = $("#shelfCode").val();
+            var cost = $("#cost").val();
+            var itemType = $("#itemType").val();
+            var branch = $("#branch").val();
 
-// Function to fetch and display Inventory table data
-function fetchInventoryTableData() {
-    $.ajax({
-        url: 'inventory.php', // Update with the actual file to fetch inventory data
-        type: 'GET',
-        dataType: 'html',
-        success: function (data) {
-            $('#inventoryTable tbody').html(data); // Display Inventory table data
-        },
-        error: function () {
-            console.error('Failed to fetch Inventory data.');
+            // Create label content
+            var labelContent = "Title: " + title + "<br>" +
+                "Author: " + author + "<br>" +
+                "Year: " + year + "<br>" +
+                "Library of Congress Code: " + locCode + "<br>" +
+                "Shelf Location Code: " + shelfCode + "<br>" +
+                "Cost: " + cost + "<br>" +
+                "Item Type: " + itemType + "<br>" +
+                "Branch: " + branch;
+
+            // Open a small popup window with the label content
+            var labelWindow = window.open('', '_blank', 'width=300,height=400,scrollbars=yes,resizable=yes');
+            labelWindow.document.write('<html><head><title>Label</title></head><body>' + labelContent +
+                '<br><button id="printBtn">Print</button>' +
+                '<button id="closeBtn">Close</button>' +
+                '</body></html>');
+            labelWindow.document.close();
+
+            // Attach click event to the Print button in the popup window
+            labelWindow.document.getElementById('printBtn').addEventListener('click', function () {
+                labelWindow.print();
+            });
+
+            // Attach click event to the Close button in the popup window
+            labelWindow.document.getElementById('closeBtn').addEventListener('click', function () {
+                labelWindow.close();
+            });
         }
+
+        // Event listener for the Generate Label button
+        $("#generateLabelBtn").click(function () {
+            generateLabel();
+        });
     });
-}
 
 
-// Call the function to fetch and display Inventory table data
-fetchInventoryTableData();
-$(document).ready(function() {
+    // Add an event listener for the "Delete" button in the table
+    $(document).on('click', '.delete-button', function () {
+        var itemIdToDelete = $(this).data("id");
+
+        // AJAX request to delete or update an item
+        $.ajax({
+            url: 'delete_item.php',
+            type: 'POST',
+            data: {itemId: itemIdToDelete},
+            success: function (data) {
+                // Handle the response and update the table accordingly
+                if (data === 'deleted') {
+                    // If the item is deleted from the database, remove it from the table
+                    var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.inStock");
+
+                    if (inStockCell.length > 0) {
+                        var currentInStock = parseInt(inStockCell.text());
+
+                        // Check if inStock is 1
+                        if (currentInStock === 1) {
+                            // Prompt the user with a confirmation dialog
+                            var confirmDelete = confirm('This is the last copy. Do you want to delete it from the database as well?');
+
+                            if (confirmDelete) {
+                                // User clicked "Yes," proceed with both database deletion and table removal
+                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                                alert('Item deleted from the database and removed from the table.');
+                            } else {
+                                // User clicked "No," only remove from the table
+                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                                alert('Item removed from the table.');
+                            }
+                        } else {
+                            // If inStock is not 1, remove only from the table
+                            $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                            alert('Item removed from the table.');
+                        }
+                    } else {
+                        console.error('Could not find the In Stock cell for item with ID:', itemIdToDelete);
+                    }
+                } else if (data === 'updated') {
+                    // If the item is updated in the database, update the inStock value in the table
+                    var inStockCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.inStock");
+                    var titleCell = $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "'] td.title");
+
+                    if (inStockCell.length > 0 && titleCell.length > 0) {
+                        // Get the current In Stock value and decrement by 1
+                        var currentInStock = parseInt(inStockCell.text());
+                        inStockCell.text(currentInStock - 1);
+
+                        // Show a notification with the removed book's title
+                        var removedTitle = titleCell.text();
+                        showNotification('1 copy of "' + removedTitle + '" has been removed.');
+                    } else {
+                        console.error('Could not find the In Stock or Title cell for item with ID:', itemIdToDelete);
+                        console.log('Row HTML:', $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").html());
+                    }
+                } else {
+                    console.error('Failed to delete or update item with ID: ' + itemIdToDelete);
+                }
+            },
+            error: function () {
+                console.error('Failed to delete or update item with ID: ' + itemIdToDelete);
+            }
+        });
+    });
+
+    // Flag to track whether form submission is in progress
+    var isFormSubmitting = false;
+
+    // Fetch and display inventory data on page load
+    $(document).ready(function () {
+        fetchInventoryTableData();
+
+        // Handle form submission using AJAX
+        $('#addItemFormContainer form').off('submit').on('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if form submission is already in progress
+            if (isFormSubmitting) {
+                console.log('Form submission is already in progress.');
+                return;
+            }
+
+            // Set the flag to indicate form submission is in progress
+            isFormSubmitting = true;
+
+            // Continue with form submission
+            $.ajax({
+                url: 'inventory.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Check the response from the server
+                    if (data.includes('success')) {
+                        // If the response contains 'success', the item was added successfully
+                        showNotification('Item added successfully.');
+                        fetchInventoryTableData(); // Update the displayed inventory table data
+                        $('#addItemFormContainer').css("display", "none");
+                        $('#addItemFormContainer form')[0].reset();
+                    } else {
+                        // If the response does not contain 'success', there was an error
+                        console.error('Failed to add an item. Server response:', data);
+                        showNotification('Failed to add an item. Please try again.');
+                    }
+                },
+                error: function () {
+                    console.error('Failed to add an item.');
+                    showNotification('Failed to add an item. Please try again.');
+                },
+                complete: function () {
+                    // Reset the flag after the form submission is complete
+                    isFormSubmitting = false;
+                }
+            });
+        });
+
+        // Add an event listener to the search input for real-time search
+        $("#searchInput").on('input', function () {
+            performSearch();
+        });
+
+        // Add an event listener for the search button
+        $("#searchBtn").click(function (event) {
+            event.preventDefault(); // Prevent the form from submitting (if it's inside a form)
+            performSearch();
+        });
+
+        // Function to perform the search and update the table
+        function performSearch() {
+            var searchInput = $("#searchInput").val();
+            var searchCriteria = $("#searchCriteria").val();
+
+            // Perform AJAX request to fetch filtered data
+            $.ajax({
+                url: 'fetch_inventory_data.php',
+                type: 'GET',
+                data: {searchInput: searchInput, searchCriteria: searchCriteria},
+                dataType: 'html',
+                success: function (data) {
+                    $('#inventoryTable tbody').html(data);
+                },
+                error: function () {
+                    console.error('Failed to fetch filtered inventory data.');
+                }
+            });
+        }
+
+        // Set the default duration to 14
+        $('#duration').val(14);
+
+        // Add an event listener to the itemType dropdown for real-time duration calculation
+        $('#itemType').off('change').on('change', function () {
+            // Get the selected item type
+            var itemType = $(this).val();
+
+            // Set the duration based on the selected item type
+            var duration = (itemType === 'Book') ? 14 : ((itemType === 'DVD') ? 3 : 0);
+
+            // If the duration is not set based on item type, keep the default value (14)
+            duration = duration || 14;
+
+            // Set the calculated duration in the duration input field
+            $('#duration').val(duration);
+        });
+
+        // Add an event listener to the cost input for real-time late fee calculation
+        $('#cost').off('input').on('input', function () {
+            // Get the cost entered by the user
+            var cost = parseFloat($(this).val());
+
+            // Calculate 10% of the cost as late fee
+            var lateFee = 0.1 * cost;
+
+            // Set the calculated late fee in the lateFee input field
+            $('#lateFee').val(lateFee.toFixed(2));
+        });
+    });
+
+
+
+    /* ----------------------- checkout.html ----------------------- */
+
     // Function to populate patron dropdown
     function populatePatronDropdown(dropdown, data, defaultText) {
         dropdown.empty();
@@ -271,7 +511,6 @@ $(document).ready(function() {
         });
     }
 
-    // Fetch and populate dropdowns
     $.ajax({
         url: 'checkout.php',
         type: 'GET',
@@ -292,3 +531,9 @@ $(document).ready(function() {
         }
     });
 });
+
+
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */
+/* -----------------------Add Page Name----------------------- */
