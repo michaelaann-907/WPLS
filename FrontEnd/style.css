@@ -190,3 +190,14 @@ button.update-button:hover {
     background-color: gold;
     color: teal;
 }
+/*
+   Button Styling in the Table
+   Page: Index Page
+*/
+.deleteButton {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
