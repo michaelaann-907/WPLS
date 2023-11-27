@@ -35,6 +35,12 @@ header h1 {
     margin: 0;
 }
 
+header h2 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+
 /*
    Navigation Styles
    Page: All
@@ -67,19 +73,19 @@ nav a {
 nav a:hover {
     color: teal;
 }
-
 /*
    Main Content Styles
    Page: All
 */
 main {
-    max-width: 800px;
+    max-width: 1200px; /* Increase the max-width for a larger container */
     margin: 20px auto;
     padding: 20px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide any overflow content */
 }
 
 /*
@@ -112,33 +118,38 @@ main {
 }
 
 /*
+   Table Container Styles
+   Page: Catalog Page
+*/
+#inventoryTableContainer {
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add margin to the bottom */
+    overflow: hidden; /* Hide horizontal overflow */
+}
+
+/*
    Footer Styles
    Page: All
 */
 footer.site-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
     background-color: teal;
     color: white;
     text-align: center;
     padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px; /* Add margin to the top */
 }
 
 /*
    Table Styles
    Page: Catalog Page
 */
-#inventoryTableContainer {
-    max-width: 100%;
-    overflow-x: auto;
-    margin-top: 20px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px; /* Add margin for spacing between the table and other elements */
 }
 
 th, td {
@@ -185,4 +196,14 @@ button.update-button:hover {
     background-color: gold;
     color: teal;
 }
-
+/*
+   Button Styling in the Table
+   Page: Index Page
+*/
+.deleteButton {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
