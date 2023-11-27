@@ -18,31 +18,52 @@
         <li><a href="catalog.html">Catalog</a></li>
         <li><a href="checkin.html">Check In</a></li>
         <li><a href="checkout.html">Check Out</a></li>
-
     </ul>
 </nav>
 <main>
     <section class="home">
         <!-- add content here later -->
-        
             <p>
                 <h2>Late Fee</h2>
                 <br></br>
                 <form id="lateFeeForm">
                 <label for="patronId">Select Patron:</label>
                 <select id="patronId" onchange="displayLateFee()">
-                  <option value="1">Patron 1</option>
-                  <option value="2">Patron 2</option>
-                  <option value="3">Patron 3</option>
+                  <option value="1">Michael Brown</option>
+                  <option value="2">JUST A TEST JUST A TEST</option>
+                  <option value="3">SophiaMartinez</option>
+                  <option value="4">Benjami Turner</option>
+                  <option value="5">James	White</option>
+                  <option value="6">Ava Turner</option>
+                  <option value="7">TEST TEST</option>
+                  <option value="8">Joe Jones</option>
+                  <option value="9">Kelsey Smith</option>
+                  <option value="10">Xander Shadowstrike</option>
+                  <option value="11">Judith Gebauer</option>
+                  <option value="12">Olivia Anderson</option>
+                  <option value="13">Sarah Johnson</option>
+                  <option value="14">Orion Frostbane</option>
+                  <option value="15">David Lee</option>
+                  <option value="16">Emma	King</option>
+                  <option value="17">James Johnson</option>
+                  <option value="18">Lyra Nightwatcher</option>
+                  <option value="19">Nova Fireheart</option>
+                  <option value="20">Oliver Harris</option>
+                  <option value="21">Samuel Cooper</option>
+                  <option value="22">William Harris</option>
+                  <option value="23">Nick	Williams</option>
+                  <option value="24">Aurora Starlight</option>
+                  <option value="25">Lily	Martinez</option>
+                  <option value="26">Lysandra Silverleaf</option>
+                  <option value="27">Charlotte Wright</option>
+                  <option value="28">Grace Wilson</option>
+                  <option value="29">Seraphina Moonshadow</option>
+                  <option value="30">Mia Perez</option>
+                  <option value="31">Ethan Johnson 1</option>
+                  <option value="32">Emily Clark</option>
+                 <option value="33">Daniel Rodriguez</option>
                 </select>
                 <br></br>
-                <label for="dueDate">Due Date:</label>
-                    <input type="date" id="dueDate" required>
-                    <br></br>
-                
-                    <label for="currentDate">Current Date:</label>
-                    <input type="date" id="currentDate" required>              
-                  <br></br>
                 <label for="lateFee">Late Fee Amount:</label>
                 <input type="text" id="lateFee" readonly>
                 <br></br>
@@ -50,35 +71,24 @@
                 <input type="number" id="paymentAmount" min="0" required>
                 <br></br>
                 <div class="button-container">
-                    <button type="button" onclick="calculateLateFee()">Calculate Late Fees</button>
                 <button type="button" onclick="payLateFees()">Pay Late Fees</button>
                   </div>
-                
                   <script>
                     function buttonClick(buttonNumber) {
                       alert('Button ' + buttonNumber + ' clicked!');
                     }
-                  </script>
-                
-                
+                  </script>                
               </form>
-              <div id="result"></div>
               <div id="receipt"></div>
               
               <script>
                 function calculateLateFee() {
                   var dueDate = new Date(document.getElementById('dueDate').value);
                   var currentDate = new Date(document.getElementById('currentDate').value);
-            
                   var timeDiff = currentDate - dueDate;
                   var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            
-                  
                   var lateFeePerDay = 0.75; 
-                
                   var lateFee = daysDiff > 0 ? daysDiff * lateFeePerDay : 0;
-            
-                  
                   document.getElementById('result').innerHTML = '<p>Late Fee: $' + lateFee.toFixed(2) + '</p>';
                 }
               </script>
@@ -102,7 +112,7 @@
                   document.getElementById('lateFeeForm').reset();
                 }
                 function getLateFeeForPatron(patronId) {
-                  return 10.00;
+                  return;
                 }
             
                 function payLateFeesForPatron(patronId, paymentAmount) {
@@ -110,9 +120,6 @@
                   return 'Payment of $' + paymentAmount.toFixed(2) + ' received. Remaining late fees: $' + remainingLateFees.toFixed(2);
                 }
               </script></p>
-    
-
-
     </section>
     <div class="buttons-container">
     </div>
@@ -121,6 +128,5 @@
 <footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
-
 </body>
 </html>
