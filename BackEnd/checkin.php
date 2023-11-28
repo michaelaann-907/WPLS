@@ -43,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
         $patronUpdateQuery = "UPDATE PatronAccount SET lateFees = 0 WHERE patronID = $patronID";
         $conn->query($patronUpdateQuery);
 
-        echo "Check-in successful!";
+        // Redirect to success page
+        header("Location: checkin_success.html");
+        exit();
     } else {
         echo "Error: Item not checked out or does not exist.";
     }
