@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../script.js"></script>
+    <title>Wayback Public Library</title>
+    <style>
+        main {
+            text-align: center;
+            color: red;
+            margin-top: 50px; /* Add margin to the top */
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: red; /* Make the error message red */
+        }
+
+        p {
+            color: black;
+        }
+
+        header h1,
+        header p,
+        footer.site-footer p {
+            color: white; /* Set text color to white */
+        }
+
+        /* Style for success message */
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 2.5em; /* Make the success message bigger */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to Wayback Public Library</h1>
+    <p>Your Gateway to Knowledge</p>
+</header>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="checkin.html">Check In</a></li>
+        <li><a href="checkout.html">Check Out</a></li>
+    </ul>
+</nav>
+<main>
+    <!-- Display success message -->
+    <div class="success-message">Check In Successful</div>
+
+    <h1>This item needs to be shipped to a different branch and needs to go in the bin.</h1>
+</main>
+<footer class="site-footer">
+    <p>&copy; 2023 Wayback Public Library</p>
+</footer>
+</body>
+</html>
