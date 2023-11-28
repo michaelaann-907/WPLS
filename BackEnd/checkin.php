@@ -18,6 +18,9 @@ $conn->query($sqlCheckInTable);
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
     $itemID = $_POST['itemID'];
 
+    // Fetch the branchReturned from the form
+    $branchReturned = $_POST['branchReturned'];
+
     // Find the related patronID and itemID from the Checkout table
     $checkoutQuery = "SELECT patronID FROM Checkout WHERE itemID = $itemID";
     $checkoutResult = $conn->query($checkoutQuery);
@@ -28,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
 
         // Insert data into CheckIn table
         $returnDate = date("Y-m-d"); // Current date
-        $branchReturned = "Branch"; // Update with the actual branch -- field to be adjusted
         $checkinInsertQuery = "INSERT INTO CheckIn (patronID, itemID, returnDate, branchReturned)
                                VALUES ('$patronID', '$itemID', '$returnDate', '$branchReturned')";
         $conn->query($checkinInsertQuery);
