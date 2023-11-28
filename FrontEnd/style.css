@@ -190,14 +190,255 @@ button.update-button:hover {
     background-color: gold;
     color: teal;
 }
-/*
-   Button Styling in the Table
-   Page: Index Page
-*/
-.deleteButton {
-    background-color: #ff4d4d;
+/* Checkin.html styling */
+
+/* Adding some basic styling to buttons */
+.custom-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: teal;
     color: #fff;
     border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s, filter 0.3s; /* Add transitions */
+
+    /* Change button style on hover */
+    &:hover {
+        background-color: gold;
+    }
 }
+
+/* Check In button specific styling */
+#checkoutForm input[type="submit"] {
+    background-color: teal;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, filter 0.3s;
+
+    /* Center the button within the form */
+    margin: 0 auto;
+    display: block;
+}
+
+/* Change button style on hover */
+#checkoutForm input[type="submit"]:hover {
+    background-color: gold;
+    filter: brightness(90%);
+}
+
+/* Adding styling for the Item ID input */
+#checkoutForm #itemID {
+    padding: 5px 10px; /* Make the padding smaller */
+    font-size: 14px; /* Make the font size smaller */
+    border: 1px solid teal;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: calc(50% - 22px); /* Adjust the width calculation to account for padding and border */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+/* Display all buttons in the same row */
+.custom-button,
+#checkoutForm input[type="submit"] {
+    display: inline-block;
+    margin-right: 10px; /* Adjust the spacing between buttons */
+}
+/* Checkout.html styling */
+
+/* Adding some basic styling to buttons */
+.custom-outbutton {
+    padding: 10px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: teal;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px; 
+    transition: background-color 0.3s, filter 0.3s;
+
+    /* Change button style on hover */
+    &:hover {
+        background-color: gold;
+    }
+}
+/* Search Bar Styles */
+#searchInput {
+    padding: 10px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid teal; /* Add border to the input */
+    border-radius: 5px; /* Add border radius */
+    margin-bottom: 10px; /* Add margin to separate from other elements */
+}
+
+#searchCriteria {
+    padding: 10px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid teal; /* Add border to the dropdown */
+    border-radius: 5px; /* Add border radius */
+    margin-bottom: 10px; /* Add margin to separate from other elements */
+}
+
+#searchBtn {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    background-color: teal; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius */
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+}
+
+#searchBtn:hover {
+    background-color: gold; /* Darker blue on hover */
+    filter: brightness(90%); /* Slight darkening on hover */
+}
+
+/* Add Item Button Styles */
+#addItemBtn {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    background-color: teal; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius */
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+}
+
+#addItemBtn:hover {
+    background-color: gold; /* Darker blue on hover */
+    filter: brightness(90%); /* Slight darkening on hover */
+}
+
+/* Additional styles for the dropdown form and its components */
+#addItemFormContainer {
+    /* Add your styles for the dropdown form container here */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Add margin between form groups */
+}
+
+.closeBtn {
+    /* Add your styles for the close button here */
+}
+
+/* Styles for the submit button within the form */
+#addSubmitBtn {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    background-color: teal; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius */
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+}
+
+#addSubmitBtn:hover {
+    background-color: rgb(1, 56, 56); /* Darker blue on hover */
+    filter: brightness(90%); /* Slight darkening on hover */
+}
+
+/* Styles for the table columns in the catalog page */
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#inventoryTable th,
+#inventoryTable td {
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Customize the styles for each column */
+#inventoryTable th:nth-child(1),
+#inventoryTable td:nth-child(1) {
+    width: 5%;
+}
+
+#inventoryTable th:nth-child(2),
+#inventoryTable td:nth-child(2) {
+    width: 15%;
+}
+
+#inventoryTable th:nth-child(3),
+#inventoryTable td:nth-child(3) {
+    width: 15%;
+}
+
+#inventoryTable th:nth-child(4),
+#inventoryTable td:nth-child(4) {
+    width: 5%;
+}
+
+#inventoryTable th:nth-child(5),
+#inventoryTable td:nth-child(5) {
+    width: 15%;
+}
+
+#inventoryTable th:nth-child(6),
+#inventoryTable td:nth-child(6) {
+    width: 10%;
+}
+
+#inventoryTable th:nth-child(7),
+#inventoryTable td:nth-child(7),
+#inventoryTable th:nth-child(8),
+#inventoryTable td:nth-child(8),
+#inventoryTable th:nth-child(11),
+#inventoryTable td:nth-child(11),
+#inventoryTable th:nth-child(12),
+#inventoryTable td:nth-child(12) {
+    width: 5%;
+}
+
+#inventoryTable th:nth-child(9),
+#inventoryTable td:nth-child(9),
+#inventoryTable th:nth-child(10),
+#inventoryTable td:nth-child(10) {
+    width: 8%;
+}
+
+#inventoryTable th:nth-child(13),
+#inventoryTable td:nth-child(13) {
+    width: 10%;
+    text-align: center;
+}
+
+/* Add your styles for the action buttons in the table */
+button.delete-button,
+button.update-button {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button.delete-button:hover,
+button.update-button:hover {
+    background-color: gold;
+    color: teal;
+}
+
