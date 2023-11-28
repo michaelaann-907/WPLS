@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
+    <style>
+        /* Add a class for equal-width input boxes */
+        .equal-width-input {
+            width: 150px; /* You can adjust the width as needed */
+        }
+    </style>
     <title>Wayback Public Library - Library Check In</title>
 </head>
 <body>
@@ -17,27 +21,91 @@
 </header>
 <nav>
     <ul>
-        <li><a href="home.html">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="catalog.html">Catalog</a></li>
         <li><a href="checkin.html">Check In</a></li>
         <li><a href="checkout.html">Check Out</a></li>
     </ul>
 </nav>
 <main>
-<h1>Library Check In</h1>
-<form id="checkoutForm" action="checkin.php" method="post">
-    <label for="itemID">Item ID:</label>
-    <input type="text" id="itemID" name="itemID" required>
-    <br><br>
-<input type="submit"  value="Check In">
-</form>
-<br></br>
-<a href="latefees.html"><button class="custom-button" id="lateFees">Late Fees</button></a>
-<button class="custom-button" id="printReceipt">Print Receipt</button>
+    <h1>Library Check In</h1>
+    <form id="checkoutForm" action="checkin.php" method="post">
+        <!-- Updated input for itemID as a dropdown with equal width -->
+        <label for="itemID">Item ID:</label>
+        <select id="itemID" name="itemID" class="equal-width-input" required>
+            <!-- Options will be dynamically added here using jQuery -->
+        </select>
+        <br><br>
 
+        <label for="branch">Origin Branch:</label>
+        <input type="text" id="branch" name="branch" class="equal-width-input" readonly>
+        <br><br>
+
+        <!-- New dropdown for Branch Returned with equal width -->
+        <label for="branchReturned">Branch Returned:</label>
+        <select id="branchReturned" name="branchReturned" class="equal-width-input" required>
+            <option value="Main">Main</option>
+            <option value="Pine Valley">Pine Valley</option>
+            <option value="North East">North East</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Check In">
+    </form>
+    <br></br>
+
+    <button id="printReceipt">Print Receipt</button>
 </main>
-<footer class ="site-footer">
+<footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
+
+<!-- jQuery script -->
+<script>
+    // jQuery document ready function
+    $(document).ready(function () {
+        // Fetch itemID values and populate the dropdown
+        $.ajax({
+            type: "POST",
+            url: "get_branch.php",
+            data: { getItemIDs: true },
+            success: function (response) {
+                // Update the itemID dropdown with fetched values, including an empty option
+                $("#itemID").html("<option value=''>Select an Item ID</option>" + response);
+            },
+            error: function () {
+                console.error("Error fetching itemID values");
+            }
+        });
+
+        // Event listener for the form submission
+        $("#checkoutForm").submit(function (event) {
+            // Prevent form submission if branchReturned is not selected
+            if ($("#branchReturned").val() === "") {
+                alert("Please select a Branch Returned");
+                event.preventDefault();
+            }
+        });
+
+        // Event listener for the selected itemID in the dropdown
+        $("#itemID").change(function () {
+            // Fetch the branch based on the selected itemID
+            var selectedItemId = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "get_branch.php",
+                data: { itemID: selectedItemId },
+                success: function (response) {
+                    // Update the branch input field with the fetched branch
+                    $("#branch").val(response);
+                },
+                error: function () {
+                    console.error("Error fetching branch");
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
