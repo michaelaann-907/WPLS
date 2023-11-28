@@ -143,7 +143,7 @@ footer.site-footer {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px; /* Add margin for spacing between the table and other elements */
+    margin-top: 10px; 
 }
 
 th, td {
@@ -203,7 +203,7 @@ button.update-button:hover {
     border-radius: 5px;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s, filter 0.3s; /* Add transitions */
+    transition: background-color 0.3s, filter 0.3s; 
 
     /* Change button style on hover */
     &:hover {
@@ -235,20 +235,20 @@ button.update-button:hover {
 
 /* Adding styling for the Item ID input */
 #checkoutForm #itemID {
-    padding: 5px 10px; /* Make the padding smaller */
-    font-size: 14px; /* Make the font size smaller */
+    padding: 5px 10px; 
+    font-size: 14px; 
     border: 1px solid teal;
     border-radius: 5px;
     margin-bottom: 10px;
-    width: calc(50% - 22px); /* Adjust the width calculation to account for padding and border */
-    box-sizing: border-box; /* Include padding and border in the width calculation */
+    width: calc(50% - 22px);
+    box-sizing: border-box; 
 }
 
 /* Display all buttons in the same row */
 .custom-button,
 #checkoutForm input[type="submit"] {
     display: inline-block;
-    margin-right: 10px; /* Adjust the spacing between buttons */
+    margin-right: 10px; 
 }
 /* Checkout.html styling */
 
@@ -273,82 +273,82 @@ button.update-button:hover {
 }
 /* Search Bar Styles */
 #searchInput {
-    padding: 10px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
-    border: 1px solid teal; /* Add border to the input */
-    border-radius: 5px; /* Add border radius */
-    margin-bottom: 10px; /* Add margin to separate from other elements */
+    padding: 10px; 
+    font-size: 16px; 
+    border: 1px solid teal; 
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 #searchCriteria {
-    padding: 10px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
-    border: 1px solid teal; /* Add border to the dropdown */
-    border-radius: 5px; /* Add border radius */
-    margin-bottom: 10px; /* Add margin to separate from other elements */
+    padding: 10px;
+    font-size: 16px; 
+    border: 1px solid teal; 
+    border-radius: 5px; 
+    margin-bottom: 10px; 
 }
 
 #searchBtn {
-    padding: 10px 20px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
+    padding: 10px 20px; 
+    font-size: 16px; 
     cursor: pointer;
-    background-color: teal; /* Blue background color */
-    color: #fff; /* White text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add border radius */
-    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+    background-color: teal; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; 
 }
 
 #searchBtn:hover {
-    background-color: gold; /* Darker blue on hover */
-    filter: brightness(90%); /* Slight darkening on hover */
+    background-color: gold; 
+    filter: brightness(90%); 
 }
 
 /* Add Item Button Styles */
 #addItemBtn {
-    padding: 10px 20px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
+    padding: 10px 20px; 
+    font-size: 16px; 
     cursor: pointer;
-    background-color: teal; /* Blue background color */
-    color: #fff; /* White text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add border radius */
-    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+    background-color: teal; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; 
 }
 
 #addItemBtn:hover {
-    background-color: gold; /* Darker blue on hover */
-    filter: brightness(90%); /* Slight darkening on hover */
+    background-color: gold; 
+    filter: brightness(90%); 
 }
 
-/* Additional styles for the dropdown form and its components */
+
 #addItemFormContainer {
-    /* Add your styles for the dropdown form container here */
+   
 }
 
 .form-group {
-    margin-bottom: 15px; /* Add margin between form groups */
+    margin-bottom: 15px; 
 }
 
 .closeBtn {
-    /* Add your styles for the close button here */
+   
 }
 
 /* Styles for the submit button within the form */
 #addSubmitBtn {
-    padding: 10px 20px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
+    padding: 10px 20px; 
+    font-size: 16px; 
     cursor: pointer;
-    background-color: teal; /* Blue background color */
-    color: #fff; /* White text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add border radius */
-    transition: background-color 0.3s, color 0.3s, filter 0.3s; /* Add transitions */
+    background-color: teal; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s, filter 0.3s; 
 }
 
 #addSubmitBtn:hover {
-    background-color: rgb(1, 56, 56); /* Darker blue on hover */
-    filter: brightness(90%); /* Slight darkening on hover */
+    background-color: rgb(1, 56, 56); 
+    filter: brightness(90%); 
 }
 
 /* Styles for the table columns in the catalog page */
