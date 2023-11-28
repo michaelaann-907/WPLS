@@ -30,32 +30,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
         $patronID = $checkoutRow['patronID'];
         $originBranch = $checkoutRow['branch'];
 
-        // Check if the origin branch and branch returned are different
-        if ($originBranch !== $branchReturned) {
-            // Insert data into CheckIn table
-            $returnDate = date("Y-m-d"); // Current date
-            $checkinInsertQuery = "INSERT INTO CheckIn (patronID, itemID, returnDate, branchReturned)
-                                   VALUES ('$patronID', '$itemID', '$returnDate', '$branchReturned')";
-            $conn->query($checkinInsertQuery);
+        // Convert branch names to lowercase for case-insensitive comparison
+        $lowercaseOriginBranch = strtolower($originBranch);
+        $lowercaseBranchReturned = strtolower($branchReturned);
 
-            // Delete the row from Checkout table
-            $checkoutDeleteQuery = "DELETE FROM Checkout WHERE itemID = $itemID";
-            $conn->query($checkoutDeleteQuery);
+        // Insert data into CheckIn table
+        $returnDate = date("Y-m-d"); // Current date
+        $checkinInsertQuery = "INSERT INTO CheckIn (patronID, itemID, returnDate, branchReturned)
+                               VALUES ('$patronID', '$itemID', '$returnDate', '$branchReturned')";
+        $conn->query($checkinInsertQuery);
 
-            // Update lateFees to 0 in PatronAccount if applicable
-            $patronUpdateQuery = "UPDATE PatronAccount SET lateFees = 0 WHERE patronID = $patronID";
-            $conn->query($patronUpdateQuery);
+        // Delete the row from Checkout table
+        $checkoutDeleteQuery = "DELETE FROM Checkout WHERE itemID = $itemID";
+        $conn->query($checkoutDeleteQuery);
 
-            // Redirect to success page with special message
-            header("Location: checkin_success.html?specialMessage=ItemNeedsShipping");
-            exit();
+        // Update lateFees to 0 in PatronAccount if applicable
+        $patronUpdateQuery = "UPDATE PatronAccount SET lateFees = 0 WHERE patronID = $patronID";
+        $conn->query($patronUpdateQuery);
+
+        // Redirect to success or error page based on branch matching
+        if ($lowercaseOriginBranch !== $lowercaseBranchReturned) {
+            header("Location: checkin_error.html");
         } else {
-            // Origin branch and branch returned are the same
-            // You can add additional handling here if needed
-            // For now, just redirect to success page without special message
             header("Location: checkin_success.html");
-            exit();
         }
+        exit();
     } else {
         echo "Error: Item not checked out or does not exist.";
     }
