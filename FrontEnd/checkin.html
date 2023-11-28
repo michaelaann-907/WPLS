@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,20 +22,66 @@
     </ul>
 </nav>
 <main>
-<h1>Library Check In</h1>
-<form id="checkoutForm" action="checkin.php" method="post">
-    <label for="itemID">Item ID:</label>
-    <input type="text" id="itemID" name="itemID" required>
-    <br><br>
-    
-    <input type="submit" value="Check In">
-</form>
-<br></br>
+    <h1>Library Check In</h1>
+    <form id="checkoutForm" action="checkin.php" method="post">
+        <label for="itemID">Item ID:</label>
+        <input type="text" id="itemID" name="itemID" required>
+        <br><br>
 
-<button id="printReceipt">Print Receipt</button>
+        <label for="branch">Origin Branch:</label>
+        <input type="text" id="branch" name="branch" readonly>
+        <br><br>
+
+        <!-- New dropdown for Branch Returned -->
+        <label for="branchReturned">Branch Returned:</label>
+        <select id="branchReturned" name="branchReturned" required>
+            <option value="Main">Main</option>
+            <option value="Pine Valley">Pine Valley</option>
+            <option value="North East">North East</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Check In">
+    </form>
+    <br></br>
+
+    <button id="printReceipt">Print Receipt</button>
 </main>
-<footer class ="site-footer">
+<footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
+
+<script>
+    // jQuery document ready function
+    $(document).ready(function () {
+        // Event listener for the itemID input field
+        $("#itemID").on("input", function () {
+            // Fetch the branch based on the entered itemID
+            var itemID = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "get_branch.php",
+                data: { itemID: itemID },
+                success: function (response) {
+                    // Update the branch input field with the fetched branch
+                    $("#branch").val(response);
+                },
+                error: function () {
+                    console.error("Error fetching branch");
+                }
+            });
+        });
+
+        // Event listener for the form submission
+        $("#checkoutForm").submit(function (event) {
+            // Prevent form submission if branchReturned is not selected
+            if ($("#branchReturned").val() === "") {
+                alert("Please select a Branch Returned");
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
