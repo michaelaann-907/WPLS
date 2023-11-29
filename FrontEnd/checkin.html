@@ -7,12 +7,78 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
     <style>
-        /* Add a class for equal-width input boxes */
-        .equal-width-input {
-            width: 150px; /* You can adjust the width as needed */
-        }
-    </style>
-    <title>Wayback Public Library - Library Check In</title>
+        /*
+      Form Group Styles
+      Page: All
+     */
+     .form-group {
+       margin-top: 20px;
+       margin-bottom: 20px;
+     }
+   
+     /*
+      Label Styles
+      Page: All
+     */
+     label {
+       display: block;
+       font-weight: bold;
+       margin-bottom: 5px;
+     }
+   
+     /*
+      Input Styles
+      Page: All
+     */
+     input,
+     select {
+       width: 26%;
+       padding: 8px;
+       margin-top: 5px;
+       margin-bottom: 10px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+       box-sizing: border-box;
+     }
+     /*
+      Submit Button Styles
+      Page: All
+     */
+     #checkin {
+       background-color: teal;
+       color: white;
+       border: none;
+       width: 14%;
+       padding: 15px 30px;
+       cursor: pointer;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 5px;
+       transition: background-color 0.3s, color 0.3s;
+     }
+   
+     #checkin:hover {
+       background-color: gold;
+       color: teal;
+     }
+     #printReceipt {
+       background-color: teal;
+       color: white;
+       border: none;
+       padding: 15px 30px;
+       cursor: pointer;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 5px;
+       transition: background-color 0.3s, color 0.3s;
+     }
+   
+     #printReceipt:hover {
+       background-color: gold;
+       color: teal;
+     }
+   </style>
+   <title>Wayback Public Library - Library Check In</title>
 </head>
 <body>
 <header>
@@ -33,32 +99,31 @@
 <main>
     <h1>Library Check In</h1>
     <form id="checkoutForm" action="checkin.php" method="post">
-        <!-- Updated input for itemID as a dropdown with equal width -->
-        <label for="itemID">Item ID:</label>
-        <select id="itemID" name="itemID" class="equal-width-input" required>
+        <div class="form-group">
+         <!-- Updated input for itemID as a dropdown with equal width -->
+         <label for="itemID">Item ID:</label>
+         <select id="itemID" name="itemID" class="equal-width-input" required>
             <!-- Options will be dynamically added here using jQuery -->
-        </select>
-        <br><br>
+         </select>
+         <br><br>
 
-        <label for="branch">Origin Branch:</label>
-        <input type="text" id="branch" name="branch" class="equal-width-input" readonly>
-        <br><br>
+         <label for="branch">Origin Branch:</label>
+         <input type="text" id="branch" name="branch" class="equal-width-input" readonly>
+         <br><br>
 
-        <!-- New dropdown for Branch Returned with equal width -->
-        <label for="branchReturned">Branch Returned:</label>
-        <select id="branchReturned" name="branchReturned" class="equal-width-input" required>
+         <!-- New dropdown for Branch Returned with equal width -->
+         <label for="branchReturned">Branch Returned:</label>
+         <select id="branchReturned" name="branchReturned" class="equal-width-input" required>
             <option value="Main">Main</option>
             <option value="Pine Valley">Pine Valley</option>
             <option value="North East">North East</option>
-        </select>
-        <br><br>
+         </select>
+         <br><br>
 
-        <input type="submit" value="Check In">
-    </form>
-    <br></br>
-
-    <button id="printReceipt">Print Receipt</button>
-
+         <input type="submit" id="checkin"value="Check In">
+         <button id="printReceipt">Print Receipt</button>
+        </div>
+    </form><br></br>
 </main>
 <footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
