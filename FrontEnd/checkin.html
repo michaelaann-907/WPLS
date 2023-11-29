@@ -55,6 +55,7 @@
     <br></br>
 
     <button id="printReceipt">Print Receipt</button>
+
 </main>
 <footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
@@ -104,7 +105,43 @@
                 }
             });
         });
+
+        // Event listener for the Print Receipt button
+        $("#printReceipt").click(function () {
+            generateReceipt();
+        });
     });
+
+    // Function to generate and display the receipt
+    function generateReceipt() {
+        // Get form data
+        var itemID = $("#itemID").val();
+        var branch = $("#branch").val();
+        var branchReturned = $("#branchReturned").val();
+
+        // Open a small popup window with the receipt content
+        var receiptWindow = window.open('', '_blank', 'width=300,height=400,scrollbars=yes,resizable=yes');
+        receiptWindow.document.write('<html><head><title>Receipt</title></head><body>' +
+            '<h2>Library Check In Receipt</h2>' +
+            '<p><strong>Item ID:</strong> ' + itemID + '</p>' +
+            '<p><strong>Origin Branch:</strong> ' + branch + '</p>' +
+            '<p><strong>Branch Returned:</strong> ' + branchReturned + '</p>' +
+            '<br><button id="printBtn">Print</button>' +
+            '<button id="closeBtn">Close</button>' +
+            '</body></html>');
+        receiptWindow.document.close();
+
+        // Attach click event to the Print button in the popup window
+        receiptWindow.document.getElementById('printBtn').addEventListener('click', function () {
+            receiptWindow.print();
+        });
+
+        // Attach click event to the Close button in the popup window
+        receiptWindow.document.getElementById('closeBtn').addEventListener('click', function () {
+            receiptWindow.close();
+        });
+    }
+
 </script>
 
 </body>
