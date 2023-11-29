@@ -291,8 +291,7 @@ $(document).ready(function () {
         });
     });
 
-
-    // Add an event listener for the "Delete" button in the table
+// Add an event listener for the "Delete" button in the table
     $(document).on('click', '.delete-button', function () {
         var itemIdToDelete = $(this).data("id");
 
@@ -317,12 +316,21 @@ $(document).ready(function () {
 
                             if (confirmDelete) {
                                 // User clicked "Yes," proceed with both database deletion and table removal
-                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
-                                alert('Item deleted from the database and removed from the table.');
+                                $.ajax({
+                                    url: 'delete_item.php',
+                                    type: 'POST',
+                                    data: {itemId: itemIdToDelete},
+                                    success: function () {
+                                        $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
+                                        alert('Item deleted from the database and removed from the table.');
+                                    },
+                                    error: function () {
+                                        console.error('Failed to delete item with ID:', itemIdToDelete);
+                                    }
+                                });
                             } else {
-                                // User clicked "No," only remove from the table
-                                $("#inventoryTableBody tr[data-id='" + itemIdToDelete + "']").remove();
-                                alert('Item removed from the table.');
+                                // User clicked "No," do nothing
+                                alert('Item not deleted.');
                             }
                         } else {
                             // If inStock is not 1, remove only from the table
