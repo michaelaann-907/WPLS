@@ -19,6 +19,7 @@
             color: black; /* Set text color to black or a contrasting color */
         }
 
+
         #patronID option {
             padding: 8px;
         }
@@ -27,7 +28,6 @@
             position: relative;
             z-index: 1;
         }
-
         #itemID {
             width: 300px; /* Adjust the width as needed */
             appearance: none;
@@ -39,6 +39,7 @@
             color: black; /* Set text color to black or a contrasting color */
         }
 
+
         #itemID option {
             padding: 8px;
         }
@@ -48,6 +49,7 @@
             z-index: 1;
         }
     </style>
+
 
     <title>Wayback Public Library - Library Check Out</title>
 </head>
@@ -101,48 +103,6 @@
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
 
-<script>
-    // jQuery document ready function
-    $(document).ready(function () {
-        // Function to generate and display the receipt
-        function generateReceipt() {
-            // Get form data
-            var itemID = $("#itemID").val();
-            var patronID = $("#patronID").val();
-            var checkoutDate = $("#checkoutDate").val();
-            var dueDate = $("#dueDate").val();
-
-            // Create receipt content
-            var receiptContent = "Item ID: " + itemID + "<br>" +
-                "Patron ID: " + patronID + "<br>" +
-                "Check Out Date: " + checkoutDate + "<br>" +
-                "Due Date: " + dueDate;
-
-            // Open a small popup window with the receipt content
-            var receiptWindow = window.open('', '_blank', 'width=300,height=400,scrollbars=yes,resizable=yes');
-            receiptWindow.document.write('<html><head><title>Receipt</title></head><body>' + receiptContent +
-                '<br><button id="printBtn">Print</button>' +
-                '<button id="closeBtn">Close</button>' +
-                '</body></html>');
-            receiptWindow.document.close();
-
-            // Attach click event to the Print button in the popup window
-            receiptWindow.document.getElementById('printBtn').addEventListener('click', function () {
-                receiptWindow.print();
-            });
-
-            // Attach click event to the Close button in the popup window
-            receiptWindow.document.getElementById('closeBtn').addEventListener('click', function () {
-                receiptWindow.close();
-            });
-        }
-
-        // Event listener for the Print Receipt button
-        $("#printReceipt").click(function () {
-            generateReceipt();
-        });
-    });
-</script>
 
 
 </body>
