@@ -541,7 +541,30 @@ $(document).ready(function () {
 });
 
 
-/* -----------------------Add Page Name----------------------- */
+/* -----------------------home.html showing tables----------------------- */
+$(document).ready(function () {
+    function fetchTableData(tableId, fetchScript) {
+        console.log('Fetching data for table:', tableId);
+        $.ajax({
+            url: fetchScript,
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                console.log('Data received:', data);
+                $('#' + tableId + 'Body').html(data);
+            },
+            error: function () {
+                console.error('Failed to fetch data for table:', tableId);
+            }
+        });
+    }
+
+    // Fetch Checkout Table Data
+    fetchTableData('checkoutTable', 'fetch_checkout_data.php');
+
+});
+
+
 /* -----------------------Add Page Name----------------------- */
 /* -----------------------Add Page Name----------------------- */
 /* -----------------------Add Page Name----------------------- */
