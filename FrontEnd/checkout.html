@@ -8,46 +8,77 @@
     <script src="script.js"></script>
 
     <style>
-        #patronID {
-            width: 300px;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 8px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: black;
-        }
-
-        #patronID option {
-            padding: 8px;
-        }
-
-        #patronID:focus {
-            position: relative;
-            z-index: 1;
-        }
-
-        #itemID {
-            width: 300px;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 8px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: black;
-        }
-
-        #itemID option {
-            padding: 8px;
-        }
-
-        #itemID:focus {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
+        /*
+      Form Group Styles
+      Page: All
+     */
+     .form-group {
+       margin-top: 20px;
+       margin-bottom: 20px;
+     }
+   
+     /*
+      Label Styles
+      Page: All
+     */
+     label {
+       display: block;
+       font-weight: bold;
+       margin-bottom: 5px;
+     }
+   
+     /*
+      Input Styles
+      Page: All
+     */
+     input,
+     select {
+       width: 26%;
+       padding: 8px;
+       margin-top: 5px;
+       margin-bottom: 10px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+       box-sizing: border-box;
+     }
+     /*
+      Submit Button Styles
+      Page: All
+     */
+     #checkout {
+       background-color: teal;
+       color: white;
+       border: none;
+       width: 14%;
+       padding: 15px 30px;
+       cursor: pointer;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 5px;
+       transition: background-color 0.3s, color 0.3s;
+     }
+   
+     #checkout:hover {
+       background-color: gold;
+       color: teal;
+     }
+     #printReceipt {
+       background-color: teal;
+       color: white;
+       border: none;
+       padding: 15px 30px;
+       cursor: pointer;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 5px;
+       transition: background-color 0.3s, color 0.3s;
+     }
+   
+     #printReceipt:hover {
+       background-color: gold;
+       color: teal;
+     }
+   </style>
 
     <title>Wayback Public Library - Library Check Out</title>
 </head>
@@ -70,31 +101,34 @@
 <main>
     <h1>Library Checkout</h1>
     <form id="checkoutForm" action="checkout.php" method="post">
-        <label for="itemID">Item ID:</label>
-        <select id="itemID" name="itemID" required onchange="updateDueDate()">
+        <div class="form-group">
+         <label for="itemID">Item ID:</label>
+         <select id="itemID" name="itemID" required onchange="updateDueDate()">
             <!-- Options will be dynamically populated using JavaScript -->
-        </select>
-        <br><br>
+         </select>
+         <br><br>
 
-        <!-- Patron ID Dropdown -->
-        <label for="patronID">Patron ID:</label>
-        <select id="patronID" name="patronID" required>
+         <!-- Patron ID Dropdown -->
+         <label for="patronID">Patron ID:</label>
+         <select id="patronID" name="patronID" required>
             <!-- Options will be dynamically populated using JavaScript -->
-        </select>
-        <br><br>
+         </select>
+         <br><br>
 
-        <label for="checkoutDate">Check Out Date:</label>
-        <input type="date" id="checkoutDate" name="checkoutDate" required>
-        <br><br>
+         <label for="checkoutDate">Check Out Date:</label>
+         <input type="date" id="checkoutDate" name="checkoutDate" required>
+         <br><br>
 
-        <label for="dueDate">Due Date:</label>
-        <input type="date" id="dueDate" name="dueDate" required>
-        <br><br>
+         <label for="dueDate">Due Date:</label>
+         <input type="date" id="dueDate" name="dueDate" required>
+         <br><br>
 
-        <input type="submit" value="Check Out">
+         <input type="submit" id="checkout" value="Check Out">
+         <button id="printReceipt">Print Receipt</button>
+        </div>
     </form>
 
-    <button id="printReceipt">Print Receipt</button>
+
 </main>
 <footer>
     <p>&copy; 2023 Wayback Public Library</p>
