@@ -9,14 +9,14 @@
 
     <style>
         #patronID {
-            width: 300px; /* Adjust the width as needed */
+            width: 300px;
             appearance: none;
             -webkit-appearance: none;
             padding: 8px;
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 4px;
-            color: black; /* Set text color to black or a contrasting color */
+            color: black;
         }
 
         #patronID option {
@@ -29,14 +29,14 @@
         }
 
         #itemID {
-            width: 300px; /* Adjust the width as needed */
+            width: 300px;
             appearance: none;
             -webkit-appearance: none;
             padding: 8px;
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 4px;
-            color: black; /* Set text color to black or a contrasting color */
+            color: black;
         }
 
         #itemID option {
@@ -71,7 +71,7 @@
     <h1>Library Checkout</h1>
     <form id="checkoutForm" action="checkout.php" method="post">
         <label for="itemID">Item ID:</label>
-        <select id="itemID" name="itemID" required>
+        <select id="itemID" name="itemID" required onchange="updateDueDate()">
             <!-- Options will be dynamically populated using JavaScript -->
         </select>
         <br><br>
@@ -96,29 +96,56 @@
 
     <button id="printReceipt">Print Receipt</button>
 </main>
-
-<footer class="site-footer">
+<footer>
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
 
 <script>
-    // jQuery document ready function
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkoutDateInput = document.getElementById('checkoutDate');
+        const today = new Date();
+        
+        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+        
+        const formattedDate = today.toISOString().split('T')[0];
+        checkoutDateInput.value = formattedDate;
+    });
+    
+    function updateDueDate() {
+        var itemID = document.getElementById('itemID').value;
+
+        $.ajax({
+            type: 'POST',
+            url: 'getDuration.php',
+            data: { itemID: itemID },
+            success: function (response) {
+                var duration = JSON.parse(response).duration;
+                var checkoutDate = new Date(document.getElementById('checkoutDate').value);
+                checkoutDate.setDate(checkoutDate.getDate() + duration);
+                var formattedDueDate = checkoutDate.toISOString().split('T')[0];
+
+                document.getElementById('dueDate').value = formattedDueDate;
+            },
+            error: function () {
+                console.error('Error fetching duration for item ID ' + itemID);
+            }
+        });
+    }
+</script>
+<script src="additional_script.js"></script>
+<script>
     $(document).ready(function () {
-        // Function to generate and display the receipt
         function generateReceipt() {
-            // Get form data
             var itemID = $("#itemID").val();
             var patronID = $("#patronID").val();
             var checkoutDate = $("#checkoutDate").val();
             var dueDate = $("#dueDate").val();
 
-            // Create receipt content
             var receiptContent = "Item ID: " + itemID + "<br>" +
                 "Patron ID: " + patronID + "<br>" +
                 "Check Out Date: " + checkoutDate + "<br>" +
                 "Due Date: " + dueDate;
 
-            // Open a small popup window with the receipt content
             var receiptWindow = window.open('', '_blank', 'width=300,height=400,scrollbars=yes,resizable=yes');
             receiptWindow.document.write('<html><head><title>Receipt</title></head><body>' + receiptContent +
                 '<br><button id="printBtn">Print</button>' +
@@ -126,24 +153,19 @@
                 '</body></html>');
             receiptWindow.document.close();
 
-            // Attach click event to the Print button in the popup window
             receiptWindow.document.getElementById('printBtn').addEventListener('click', function () {
                 receiptWindow.print();
             });
 
-            // Attach click event to the Close button in the popup window
             receiptWindow.document.getElementById('closeBtn').addEventListener('click', function () {
                 receiptWindow.close();
             });
         }
 
-        // Event listener for the Print Receipt button
         $("#printReceipt").click(function () {
             generateReceipt();
         });
     });
 </script>
-
-
 </body>
 </html>
