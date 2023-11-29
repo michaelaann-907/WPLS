@@ -22,12 +22,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
     $branchReturned = $_POST['branchReturned'];
 
     // Find the related patronID and itemID from the Checkout table
-    $checkoutQuery = "SELECT patronID FROM Checkout WHERE itemID = $itemID";
+    $checkoutQuery = "SELECT patronID, branch FROM Checkout JOIN Inventory ON Checkout.itemID = Inventory.itemID WHERE Checkout.itemID = $itemID";
     $checkoutResult = $conn->query($checkoutQuery);
 
     if ($checkoutResult->num_rows > 0) {
         $checkoutRow = $checkoutResult->fetch_assoc();
         $patronID = $checkoutRow['patronID'];
+        $originBranch = $checkoutRow['branch'];
+
+        // Convert branch names to lowercase for case-insensitive comparison
+        $lowercaseOriginBranch = strtolower($originBranch);
+        $lowercaseBranchReturned = strtolower($branchReturned);
 
         // Insert data into CheckIn table
         $returnDate = date("Y-m-d"); // Current date
@@ -43,8 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['itemID'])) {
         $patronUpdateQuery = "UPDATE PatronAccount SET lateFees = 0 WHERE patronID = $patronID";
         $conn->query($patronUpdateQuery);
 
-        // Redirect to success page
-        header("Location: checkin_success.html");
+        // Redirect to success or error page based on branch matching
+        if ($lowercaseOriginBranch !== $lowercaseBranchReturned) {
+            header("Location: checkin_error.html");
+        } else {
+            header("Location: checkin_success.html");
+        }
         exit();
     } else {
         echo "Error: Item not checked out or does not exist.";
