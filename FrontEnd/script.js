@@ -565,6 +565,26 @@ $(document).ready(function () {
 });
 
 
-/* -----------------------Add Page Name----------------------- */
+/* -----------------------patron page // index.html ----------------------- */
+$(document).ready(function () {
+    function fetchPatronTableData() {
+        console.log('Fetching patron data...');
+        $.ajax({
+            url: 'fetch_patron_data.php',
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                console.log('Data received:', data);
+                $('#patronTable').html(data);
+            },
+            error: function () {
+                console.error('Failed to fetch Patron table data.');
+            }
+        });
+    }
+
+    fetchPatronTableData();
+});
+
 /* -----------------------Add Page Name----------------------- */
 /* -----------------------Add Page Name----------------------- */

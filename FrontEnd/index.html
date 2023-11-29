@@ -329,8 +329,8 @@
     </div>
     
         <!-- Display the PatronAccount table data -->
-        <div id="inventoryTableContainer">
-            <table id="inventoryTable">
+        <div id="patronTableContainer">
+            <table id="patronTable">
                 <thead>
                     <tr>
                         <th>patronID</th>
@@ -349,7 +349,7 @@
                         <th colspan="2" style="text-align: center;">Actions</th> <!-- Added a new column for the delete button -->
                     </tr>
                 </thead>
-                <tbody id="inventoryTableBody">
+                <tbody id="patronTableBody">
                     <!-- Table data will be displayed here -->
                 </tbody>
             </table>
@@ -416,6 +416,41 @@
     color: teal;
  }
 </style>
+<script>
+    // Number of rows to display per page
+    var rowsPerPage = 10;
+
+    // Get the table and tbody elements
+    var table = $('#patronTable');
+    var tbody = $('#patronTableBody');
+
+    // Calculate the number of pages
+    var totalPages = Math.ceil(tbody.find('tr').length / rowsPerPage);
+
+    // Display the first page by default
+    showPage(1);
+
+    // Function to show a specific page
+    function showPage(page) {
+        tbody.find('tr').hide();
+        var startIndex = (page - 1) * rowsPerPage;
+        var endIndex = startIndex + rowsPerPage;
+        tbody.find('tr').slice(startIndex, endIndex).show();
+    }
+
+    // Add pagination controls
+    var paginationControls = $('<div class="pagination"></div>');
+    for (var i = 1; i <= totalPages; i++) {
+        paginationControls.append('<span class="page">' + i + '</span>');
+    }
+    $('#patronTableContainer').after(paginationControls);
+
+    // Handle page click events
+    $('.page').on('click', function () {
+        var page = $(this).text();
+        showPage(page);
+    });
+</script>
 <footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
 </footer>
