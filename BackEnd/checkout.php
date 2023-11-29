@@ -12,7 +12,7 @@ $createTableQuery = "CREATE TABLE IF NOT EXISTS Checkout (
     FOREIGN KEY (itemID) REFERENCES Inventory(itemID)
 )";
 
-if ($conn->query($createTableQuery) !== true) {
+if (!$conn->query($createTableQuery)) {
     die("Error creating table: " . $conn->error);
 }
 
@@ -50,44 +50,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($insertQuery);
         $stmt->bind_param("iiss", $patronID, $itemID, $dueDate, $checkoutDate);
-        if ($stmt->execute() !== true) {
-            die("Error: " . $stmt->error);
+        
+        if ($stmt->execute()) {
+            // Redirect to the checkout success page
+            header("Location: checkout_success.html");
+            exit();
         } else {
-            echo "Checkout successful!";
+            die("Error: " . $stmt->error);
         }
     } catch (Exception $e) {
         die(json_encode(array('error' => 'Error: ' . $e->getMessage())));
     }
 }
+
 // Fetch patron IDs for the dropdown
 $sqlFetchPatronData = "SELECT patronID, firstName, lastName FROM PatronAccount";
-$stmtPatron = $conn->prepare($sqlFetchPatronData);
-$stmtPatron->execute();
-$resultPatronData = $stmtPatron->get_result();
+$resultPatronData = $conn->query($sqlFetchPatronData);
 
-if ($resultPatronData->num_rows > 0) {
-    $patronData = array();
-    while ($row = $resultPatronData->fetch_assoc()) {
-        $patronData[] = $row;
-    }
-} else {
-    $patronData = array();
-}
+$patronData = ($resultPatronData->num_rows > 0) ? $resultPatronData->fetch_all(MYSQLI_ASSOC) : array();
 
-/// Fetch ItemID and Title data for the dropdown
+// Fetch ItemID and Title data for the dropdown
 $sqlFetchItemData = "SELECT itemID, title, author, itemType FROM Inventory";
-$stmtItem = $conn->prepare($sqlFetchItemData);
-$stmtItem->execute();
-$resultItemData = $stmtItem->get_result();
+$resultItemData = $conn->query($sqlFetchItemData);
 
-if ($resultItemData->num_rows > 0) {
-    $itemData = array();
-    while ($row = $resultItemData->fetch_assoc()) {
-        $itemData[] = $row;
-    }
-} else {
-    $itemData = array();
-}
+$itemData = ($resultItemData->num_rows > 0) ? $resultItemData->fetch_all(MYSQLI_ASSOC) : array();
 
 // Combine data into an associative array
 $combinedData = array('patronData' => $patronData, 'itemData' => $itemData);
@@ -95,11 +81,4 @@ $combinedData = array('patronData' => $patronData, 'itemData' => $itemData);
 echo json_encode($combinedData);
 
 $conn->close();
-
-
 ?>
-
-
-
-
-
