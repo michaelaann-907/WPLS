@@ -8,17 +8,21 @@
     <script src="script.js"></script>
     <title>Wayback Public Library</title>
 <body>
+  
 <header>
     <h1>Welcome to Wayback Public Library</h1>
     <p>Your Gateway to Knowledge</p>
 </header>
 <nav>
-    <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="catalog.html">Catalog</a></li>
-        <li><a href="checkin.html">Check In</a></li>
-        <li><a href="checkout.html">Check Out</a></li>
-    </ul>
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="index.html">Patron Management</a></li>
+    <li><a href="catalog.html">Catalog</a></li>
+    <li><a href="checkin.html">Check In</a></li>
+    <li><a href="checkout.html">Check Out</a></li>
+    <li><a href="latefees.html">Late Fees</a></li>
+    <li><a href="putback.html">Put Item Back</a></li>
+  </ul>
 </nav>
 <main>
     <section class="home">
@@ -27,8 +31,9 @@
                 <h2>Late Fee</h2>
                 <br></br>
                 <form id="lateFeeForm">
-                <label for="patronId">Select Patron:</label>
-                <select id="patronId" onchange="displayLateFee()">
+                <div class="form-group">
+                 <label for="patronId">Select Patron:</label>
+                 <select id="patronId" onchange="displayLateFee()">
                   <option value="1">Select</option> 
                   <option value="2">Michael Brown</option>
                   <option value="3">JUST A TEST JUST A TEST</option>
@@ -63,22 +68,23 @@
                   <option value="32">Ethan Johnson 1</option>
                   <option value="33">Emily Clark</option>
                  <option value="34">Daniel Rodriguez</option>
-                </select>
-                <br></br>
-                <label for="lateFee">Late Fee Amount:</label>
-                <input type="text" id="lateFee" readonly>
-                <br></br>
-                <label for="paymentAmount">Enter Payment Amount:</label>
-                <input type="number" id="paymentAmount" min="0" required>
-                <br></br>
-                <div class="button-container">
+                 </select>
+                 <br></br>
+                 <label for="lateFee">Late Fee Amount:</label>
+                 <input type="text" id="lateFee" readonly>
+                 <br></br>
+                 <label for="paymentAmount">Enter Payment Amount:</label>
+                 <input type="number" id="paymentAmount" min="0" required>
+                 <br></br>
+                </div>                
+                <div class="buttons-container">
                 <button type="button" onclick="payLateFees()">Pay Late Fees</button>
-                  </div>
-                  <script>
+                </div>
+                <script>
                     function buttonClick(buttonNumber) {
                       alert('Button ' + buttonNumber + ' clicked!');
                     }
-                  </script>                
+                </script>                
               </form>
               <div id="receipt"></div>
               
@@ -120,11 +126,43 @@
                   var remainingLateFees = 0.00; 
                   return 'Payment of $' + paymentAmount.toFixed(2) + ' received. Remaining late fees: $' + remainingLateFees.toFixed(2);
                 }
-              </script></p>
+              </script>
+            </p>
     </section>
     <div class="buttons-container">
     </div>
 </main>
+<style>
+  .form-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+ }
+
+ /*
+   Label Styles
+   Page: All
+ */
+ label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+ }
+
+ /*
+   Input Styles
+   Page: All
+ */
+ input,
+ select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+ }
+</style>
 
 <footer class="site-footer">
     <p>&copy; 2023 Wayback Public Library</p>
